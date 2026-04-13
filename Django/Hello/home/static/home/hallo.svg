@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-label="Hallo afbeelding">
+  <rect width="640" height="360" rx="32" fill="#f3f4f6"/>
+  <circle cx="160" cy="180" r="70" fill="#2563eb"/>
+  <circle cx="160" cy="180" r="36" fill="#dbeafe"/>
+  <text x="260" y="200" font-family="Arial, sans-serif" font-size="56" fill="#111827">hallo</text>
+</svg>
