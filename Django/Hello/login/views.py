@@ -16,6 +16,15 @@ def _resolve_username(value: str) -> str:
         return value
 
 
+def _find_user(identifier: str):
+    user = User.objects.filter(username__iexact=identifier).first()
+
+    if user is None and "@" in identifier:
+        user = User.objects.filter(email__iexact=identifier).first()
+
+    return user
+
+
 def index(request):
     if request.user.is_authenticated:
         return redirect("/")
@@ -23,6 +32,28 @@ def index(request):
     if request.method == "POST":
         identifier = request.POST.get("username", "").strip()
         password = request.POST.get("password", "")
+
+        if not identifier:
+            messages.error(request, "Vul een gebruikersnaam of e-mailadres in.")
+            return render(request, "login/login.html")
+
+        user = _find_user(identifier)
+
+        if user is None:
+            messages.error(request, "Onjuiste gebruikersnaam of e-mailadres.")
+            return render(request, "login/login.html")
+
+        if not user.is_active:
+            messages.error(request, "Dit account is uitgeschakeld.")
+            return render(request, "login/login.html")
+
+        if password == "":
+            if not user.has_usable_password():
+                auth_login(request, user)
+                return redirect("/")
+
+            messages.error(request, "Wachtwoord is verplicht voor dit account.")
+            return render(request, "login/login.html")
 
         username = _resolve_username(identifier)
         user = authenticate(request, username=username, password=password)
