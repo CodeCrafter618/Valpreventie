@@ -7,6 +7,9 @@
 .site-header__inner {
     margin: 0 auto;
     max-width: 1100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .site-header__title {
@@ -15,19 +18,17 @@
     color: #111827;
 }
 
-.site-footer {
-    background: #ffffff;
-    border-top: 1px solid #e5e7eb;
-    padding: 12px 16px;
+.site-header__nav {
+    display: flex;
 }
 
-.site-footer__inner {
-    margin: 0 auto;
-    max-width: 1100px;
+.site-header__nav a {
+    text-decoration: none;
+    color: #1f4fd4;
+    font-weight: 600;
 }
 
-.site-footer__text {
-    margin: 0;
-    color: #374151;
-    font-size: 0.95rem;
+.site-header__nav a:hover,
+.site-header__nav a:focus-visible {
+    text-decoration: underline;
 }

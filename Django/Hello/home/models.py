@@ -25,3 +25,12 @@ class Vragen(models.Model):
 
 	def __str__(self):
 		return self.vraag
+
+
+class Antwoord(models.Model):
+	vraag = models.ForeignKey(Vragen, on_delete=models.CASCADE, related_name="antwoorden")
+	ja_nee = models.BooleanField()
+	aangemaakt_op = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return f"{self.vraag.vraag}: {'Ja' if self.ja_nee else 'Nee'}"
