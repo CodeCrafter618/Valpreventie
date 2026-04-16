@@ -51,6 +51,10 @@
     flex: 0 0 auto;
 }
 
+.site-header__auth-form {
+    margin: 0;
+}
+
 .site-header__title {
     margin: 0;
     font-size: 1.25rem;
@@ -77,6 +81,9 @@
     padding: 6px 22px;
     margin-left: 8px;
     transition: background 0.2s;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
 }
 
 .site-footer__inner {

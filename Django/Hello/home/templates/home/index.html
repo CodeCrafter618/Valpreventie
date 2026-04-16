@@ -1,19 +1,4 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block title %}Home{% endblock %}
+{% extends 'base.html' %} {% load static %} {% block title %}Home{% endblock %}
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'home/home.css' %}" />
-{% endblock %}
-{% block content %}
-<div class="home-wrap">
-  <section class="home-card">
-    <h1>Je bent ingelogd</h1>
-    <p>Welkom op de homepagina.</p>
-
-    <form method="post" action="/login/uitloggen/">
-      {% csrf_token %}
-      <button class="btn" type="submit">Uitloggen</button>
-    </form>
-  </section>
-</div>
-{% endblock %}
+{% endblock %} {% block content %} {% endblock %}

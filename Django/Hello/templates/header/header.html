@@ -2,12 +2,43 @@
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-header__logo-title">
-      <img src="{% static 'login/Logo.png' %}" alt="Logo" class="site-header__logo" height="32">
-      <a href="/vragenlijst-beheer/" class="site-header__nav-link">Vragenlijst beheer</a>
+      <a
+        href="/"
+        class="site-header__logo-link"
+        aria-label="Ga naar de homepagina"
+      >
+        <img
+          src="{% static 'login/Logo.png' %}"
+          alt="Logo"
+          class="site-header__logo"
+          height="32"
+        />
+      </a>
+      <a href="/vragenlijstbeheer/" class="site-header__nav-link"
+        >Vragenlijst beheer</a
+      >
       <a href="/resultaat/" class="site-header__nav-link">Resultaat</a>
     </div>
     <div class="site-header__login-container">
-      <a href="/login/" class="site-header__nav-link site-header__login-btn">Login</a>
+      {% if request.user.is_authenticated %}
+      <form
+        action="/login/uitloggen/"
+        method="post"
+        class="site-header__auth-form"
+      >
+        {% csrf_token %}
+        <button
+          type="submit"
+          class="site-header__nav-link site-header__login-btn site-header__login-btn--logout"
+        >
+          Uitloggen
+        </button>
+      </form>
+      {% else %}
+      <a href="/login/" class="site-header__nav-link site-header__login-btn"
+        >Login</a
+      >
+      {% endif %}
     </div>
   </div>
-</header>   
+</header>
