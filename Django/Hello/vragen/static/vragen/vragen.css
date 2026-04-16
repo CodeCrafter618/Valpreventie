@@ -1,0 +1,151 @@
+:root {
+    --vragen-bg: #d5d6d9;
+    --vragen-card: #f1f1f3;
+    --vragen-text: #141414;
+    --vragen-blue: #1f57e7;
+    --vragen-blue-darker: #1a49c4;
+    --vragen-track: #e8e8ea;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--vragen-bg);
+    color: var(--vragen-text);
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.vragen-wrap {
+    min-height: 100%;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+}
+
+.vragen-card {
+    width: min(100%, 780px);
+    background: var(--vragen-card);
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.vragen-card h1 {
+    margin: 0;
+    font-size: 36px;
+    line-height: 1.1;
+}
+
+.vragen-step {
+    margin: 10px 0 18px;
+    font-weight: 600;
+    color: #444;
+}
+
+.vragen-done {
+    margin: 0 0 12px;
+    color: #1b6a2a;
+    font-weight: 600;
+}
+
+.vraag-blok h2 {
+    margin: 0;
+    font-size: 34px;
+    line-height: 1.12;
+}
+
+.vraag-blok p {
+    margin: 14px 0 0;
+    font-size: 23px;
+}
+
+.keuze-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 26px 0;
+}
+
+.btn-keuze {
+    border: 0;
+    border-radius: 999px;
+    background: var(--vragen-blue);
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    min-height: 72px;
+    transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.btn-keuze:hover,
+.btn-keuze:focus-visible {
+    background: var(--vragen-blue-darker);
+    transform: translateY(-1px);
+}
+
+.progress {
+    width: 100%;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--vragen-track);
+    overflow: hidden;
+    margin: 8px 0 18px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--vragen-blue);
+    transition: width 0.25s ease;
+}
+
+.vragen-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.link-nav {
+    text-decoration: none;
+    color: #343434;
+    font-weight: 600;
+}
+
+.btn-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: var(--vragen-blue);
+    color: #fff;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+@media (max-width: 760px) {
+    .vragen-card h1 {
+        font-size: 28px;
+    }
+
+    .vraag-blok h2 {
+        font-size: 29px;
+    }
+
+    .vraag-blok p {
+        font-size: 20px;
+    }
+
+    .keuze-form {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-keuze {
+        font-size: 21px;
+        min-height: 62px;
+    }
+}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Risicotest voor
+vallen{% endblock %} {% block extra_head %}
+<link rel="stylesheet" href="{% static 'vragen/vragen.css' %}" />
+{% endblock %} {% block content %}
+<main class="vragen-wrap">
+  <section class="vragen-card" aria-label="Risicotest voor vallen">
+    {% if not heeft_vragen %}
+    <h1>Risicotest voor vallen</h1>
+    <p class="vragen-step">Er staan nog geen vragen in de database.</p>
+    {% else %}
+    <p class="vragen-step">
+      Risicotest voor vallen - vraag {{ stap }} van {{ totaal }}
+    </p>
+
+    {% if is_klaar %}
+    <p class="vragen-done">Bedankt, je antwoorden zijn opgeslagen.</p>
+    {% endif %}
+
+    <div class="vraag-blok">
+      <h2>{{ vraag.vraag }}</h2>
+      {% if vraag.extra_info %}
+      <p>{{ vraag.extra_info }}</p>
+      {% endif %}
+    </div>
+
+    <form method="post" class="keuze-form" aria-label="Kies ja of nee">
+      {% csrf_token %}
+      <button class="btn-keuze" type="submit" name="keuze" value="ja">
+        JA
+      </button>
+      <button class="btn-keuze" type="submit" name="keuze" value="nee">
+        NEE
+      </button>
+    </form>
+
+    <div class="progress" aria-hidden="true">
+      <div class="progress-bar" style="width: {{ voortgang }}%"></div>
+    </div>
+
+    <div class="vragen-nav">
+      {% if kan_terug %}
+      <a class="link-nav" href="/vragen/?stap={{ terug_stap }}">Vorige vraag</a>
+      {% else %}
+      <span class="link-nav" aria-hidden="true"></span>
+      {% endif %} {% if is_laatste %}
+      <span class="btn-nav" aria-hidden="true">Laatste vraag</span>
+      {% else %}
+      <a class="btn-nav" href="/vragen/?stap={{ stap }}"
+        >Volgende zonder antwoord</a
+      >
+      {% endif %}
+    </div>
+    {% endif %}
+  </section>
+</main>
+{% endblock %}

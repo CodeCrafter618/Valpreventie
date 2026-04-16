@@ -1,0 +1,110 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Vragenlijst
+beheer{% endblock %} {% block extra_head %}
+<link
+  rel="stylesheet"
+  href="{% static 'vragenlijstbeheer/vragenlijstbeheer.css' %}"
+/>
+{% endblock %} {% block content %}
+<main class="beheer-wrap">
+  <section class="beheer-card" aria-label="Vragenlijst beheer">
+    <h1>Vragenlijst beheer</h1>
+
+    <div class="table-scroll">
+      <table class="beheer-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Titel</th>
+            <th>Beschrijving</th>
+            <th>Ja</th>
+            <th>Nee</th>
+            <th>Acties</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for vraag in vragen %} {% if edit_id == vraag.id %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+              <input
+                class="beheer-input"
+                type="text"
+                name="vraag"
+                value="{{ vraag.vraag }}"
+                form="edit-form-{{ vraag.id }}"
+                required
+              />
+            </td>
+            <td>
+              <textarea
+                class="beheer-textarea"
+                name="extra_info"
+                rows="3"
+                form="edit-form-{{ vraag.id }}"
+              >
+{{ vraag.extra_info }}</textarea
+              >
+            </td>
+            <td>{{ vraag.ja_totaal }}</td>
+            <td>{{ vraag.nee_totaal }}</td>
+            <td class="acties-col">
+              <form
+                id="edit-form-{{ vraag.id }}"
+                method="post"
+                class="inline-form"
+              >
+                {% csrf_token %}
+                <input type="hidden" name="actie" value="opslaan" />
+                <input type="hidden" name="vraag_id" value="{{ vraag.id }}" />
+                <input type="hidden" name="weging" value="{{ vraag.weging }}" />
+                <input
+                  type="hidden"
+                  name="volgorde"
+                  value="{{ vraag.volgorde }}"
+                />
+                <button class="actie-btn" type="submit">Opslaan</button>
+              </form>
+              <a href="/vragenlijstbeheer/" class="actie-link">Annuleer</a>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ vraag.vraag }}</td>
+            <td>{{ vraag.extra_info|default:'-' }}</td>
+            <td>{{ vraag.ja_totaal }}</td>
+            <td>{{ vraag.nee_totaal }}</td>
+            <td class="acties-col">
+              <a
+                href="/vragenlijstbeheer/?edit={{ vraag.id }}"
+                class="actie-link"
+                aria-label="Bewerk vraag {{ vraag.id }}"
+                >Bewerk</a
+              >
+              <form method="post" class="inline-form">
+                {% csrf_token %}
+                <input type="hidden" name="actie" value="verwijder" />
+                <input type="hidden" name="vraag_id" value="{{ vraag.id }}" />
+                <button
+                  type="submit"
+                  class="actie-btn actie-btn-danger"
+                  aria-label="Verwijder vraag {{ vraag.id }}"
+                >
+                  Verwijder
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endif %} {% empty %}
+          <tr>
+            <td colspan="6" class="leeg-regel">
+              Er zijn nog geen vragen beschikbaar.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+{% endblock %}

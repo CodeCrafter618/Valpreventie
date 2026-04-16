@@ -1,0 +1,153 @@
+:root {
+    --beheer-bg: #e7e7ea;
+    --beheer-card: #f5f5f6;
+    --beheer-line: #7a7a7a;
+    --beheer-text: #2b2b2b;
+    --beheer-head: #dedee0;
+    --beheer-accent: #3362cc;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--beheer-bg);
+    color: var(--beheer-text);
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.beheer-wrap {
+    min-height: 100%;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+}
+
+.beheer-card {
+    width: min(100%, 980px);
+    background: var(--beheer-card);
+    border: 1px solid #cfcfd2;
+    border-radius: 8px;
+    padding: 18px;
+}
+
+.beheer-card h1 {
+    margin: 0 0 16px;
+    text-align: center;
+    font-size: 30px;
+    letter-spacing: 0.01em;
+}
+
+.table-scroll {
+    overflow-x: auto;
+}
+
+.beheer-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 14px;
+}
+
+.beheer-table th,
+.beheer-table td {
+    border: 1px solid var(--beheer-line);
+    padding: 8px;
+    vertical-align: top;
+}
+
+.beheer-table th {
+    background: var(--beheer-head);
+    text-align: left;
+    font-weight: 700;
+}
+
+.beheer-table th:nth-child(1),
+.beheer-table td:nth-child(1),
+.beheer-table th:nth-child(4),
+.beheer-table td:nth-child(4),
+.beheer-table th:nth-child(5),
+.beheer-table td:nth-child(5) {
+    text-align: center;
+    width: 60px;
+}
+
+.beheer-table th:nth-child(2),
+.beheer-table td:nth-child(2) {
+    width: 210px;
+}
+
+.beheer-table th:nth-child(6),
+.beheer-table td:nth-child(6) {
+    width: 160px;
+}
+
+.acties-col {
+    white-space: nowrap;
+}
+
+.inline-form {
+    display: inline;
+}
+
+.actie-link {
+    display: inline-block;
+    margin-right: 10px;
+    text-decoration: none;
+    color: var(--beheer-accent);
+    font-weight: 600;
+}
+
+.actie-link:hover,
+.actie-link:focus-visible {
+    text-decoration: underline;
+}
+
+.actie-btn {
+    border: 0;
+    background: var(--beheer-accent);
+    color: #fff;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+.actie-btn-danger {
+    background: #b83b3b;
+}
+
+.beheer-input,
+.beheer-textarea {
+    width: 100%;
+    border: 1px solid #bcbcc1;
+    border-radius: 4px;
+    padding: 6px;
+    font: inherit;
+    color: inherit;
+    background: #fff;
+}
+
+.beheer-textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.leeg-regel {
+    text-align: center;
+    color: #5b5b5b;
+    font-style: italic;
+}
+
+@media (max-width: 900px) {
+    .beheer-card h1 {
+        font-size: 26px;
+    }
+
+    .beheer-table {
+        min-width: 760px;
+    }
+}
