@@ -1,58 +1,51 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="nl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link rel="stylesheet" href="{% static 'login/login.css' %}" />
-  </head>
-  <body>
-    <main class="login-wrap">
-      <section class="login-card" aria-label="Inloggen">
-        <h1>Login</h1>
+{% extends 'base.html' %} {% load static %} {% block title %}Login{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'login/login.css' %}" />
+{% endblock %} {% block content %}
+<main class="login-wrap">
+  <section class="login-card" aria-label="Inloggen">
+    <h1>Login</h1>
 
-        <div class="brand">
-          <img
-            src="{% static 'login/logo.png' %}"
-            alt="Gemeente Sudwest-Fryslan"
-            class="brand-logo"
-          />
-        </div>
+    <div class="brand">
+      <img
+        src="{% static 'login/logo.png' %}"
+        alt="Logo Sudwest-Fryslan"
+        class="brand-logo"
+      />
+    </div>
 
-        {% if messages %}
-        <div class="alert" role="alert">
-          {% for message in messages %}
-          <p>{{ message }}</p>
-          {% endfor %}
-        </div>
-        {% endif %}
+    {% if messages %}
+    <div class="alert" role="alert">
+      {% for message in messages %}
+      <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
 
-        <form method="post" class="login-form">
-          {% csrf_token %}
-          <label class="sr-only" for="username">E-mail of gebruikersnaam</label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            placeholder="E-Mail"
-            autocomplete="username"
-            required
-          />
+    <form method="post" class="login-form">
+      {% csrf_token %}
+      <label class="sr-only" for="username">E-mail of gebruikersnaam</label>
+      <input
+        id="username"
+        name="username"
+        type="text"
+        placeholder="E-Mail"
+        autocomplete="username"
+        required
+      />
 
-          <label class="sr-only" for="password">Wachtwoord</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Wachtwoord"
-            autocomplete="current-password"
-            required
-          />
+      <label class="sr-only" for="password">Wachtwoord</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        placeholder="Wachtwoord"
+        autocomplete="current-password"
+        required
+      />
 
-          <button type="submit">Inloggen</button>
-        </form>
-      </section>
-    </main>
-  </body>
-</html>
+      <button type="submit">Inloggen</button>
+    </form>
+  </section>
+</main>
+{% endblock %}
