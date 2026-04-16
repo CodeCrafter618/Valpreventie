@@ -1,5 +1,13 @@
+{% load static %}
 <header class="site-header">
   <div class="site-header__inner">
-    <h1 class="site-header__title">Header</h1>
+    <div class="site-header__logo-title">
+      <img src="{% static 'login/Logo.png' %}" alt="Logo" class="site-header__logo" height="32" style="vertical-align:middle; margin-right: 8px;">
+      <span class="site-header__title" style="font-size: 1.1rem; font-weight: 500; color: #374151;">Valpreventie</span>
+    </div>
+    <nav class="site-header__nav" style="gap: 18px;">
+      <a href="/" class="site-header__nav-link" style="font-size: 0.98rem;">Producten</a>
+      <a href="/login/" class="site-header__nav-link site-header__login-btn" style="font-size: 0.98rem; padding: 6px 22px;">Login</a>
+    </nav>
   </div>
 </header>

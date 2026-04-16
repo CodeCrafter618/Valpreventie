@@ -16,6 +16,53 @@
     margin: 0;
     font-size: 1.25rem;
     color: #111827;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.site-header__logo-title {
+    display: flex;
+    align-items: center;
+}
+
+.site-header__logo {
+    height: 32px;
+    width: auto;
+    margin-right: 8px;
+}
+
+.site-header__nav {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.site-header__nav-link {
+    color: #374151;
+    text-decoration: none;
+    font-size: 0.98rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.site-header__nav-link:hover {
+    background: #f3f4f6;
+    color: #2563eb;
+}
+
+.site-header__login-btn {
+    background: #2563eb;
+    color: #fff !important;
+    font-weight: 500;
+    border-radius: 4px;
+    padding: 6px 22px;
+    margin-left: 8px;
+    transition: background 0.2s;
+}
+
+.site-header__login-btn:hover {
+    background: #1d4ed8;
 }
 
 .site-footer {
