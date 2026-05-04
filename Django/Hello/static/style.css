@@ -96,3 +96,11 @@
     color: #374151;
     font-size: 0.95rem;
 }
+
+.site-footer__names {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: default;
+    pointer-events: none;
+}
