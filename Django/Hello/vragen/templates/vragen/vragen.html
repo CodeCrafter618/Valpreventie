@@ -16,38 +16,51 @@ vallen{% endblock %} {% block extra_head %}
     <p class="vragen-done">Bedankt, je antwoorden zijn opgeslagen.</p>
     {% endif %}
 
-    <div class="vraag-blok">
-      <h2>{{ vraag.vraag }}</h2>
-      {% if vraag.extra_info %}
-      <p>{{ vraag.extra_info }}</p>
-      {% endif %}
-    </div>
+    <div class="vragen-body">
+      <div class="vraag-blok">
+        <h2>{{ vraag.vraag }}</h2>
+        {% if extra_info_intro %}
+        <p class="vraag-info">{{ extra_info_intro }}</p>
+        {% endif %} {% if extra_info_subtitel %}
+        <p class="vraag-subinfo">{{ extra_info_subtitel }}</p>
+        {% endif %} {% if extra_info_punten %}
+        <ul class="vraag-lijst">
+          {% for punt in extra_info_punten %}
+          <li>{{ punt }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
 
-    <form method="post" class="keuze-form" aria-label="Kies ja of nee">
-      {% csrf_token %}
-      <button class="btn-keuze" type="submit" name="keuze" value="ja">
-        JA
-      </button>
-      <button class="btn-keuze" type="submit" name="keuze" value="nee">
-        NEE
-      </button>
-    </form>
+      <form method="post" class="keuze-form" aria-label="Kies ja of nee">
+        {% csrf_token %}
+        <button class="btn-keuze" type="submit" name="keuze" value="ja">
+          JA
+          <span class="btn-icon" aria-hidden="true">&#10003;</span>
+        </button>
+        <button class="btn-keuze" type="submit" name="keuze" value="nee">
+          NEE
+          <span class="btn-icon" aria-hidden="true">&#9675;</span>
+        </button>
+      </form>
+    </div>
 
     <div class="progress" aria-hidden="true">
       <div class="progress-bar" style="width: {{ voortgang }}%"></div>
+      <span class="progress-label" style="left: calc({{ voortgang }}% - 18px)"
+        >{{ voortgang }}%</span
+      >
     </div>
 
     <div class="vragen-nav">
       {% if kan_terug %}
-      <a class="link-nav" href="/vragen/?stap={{ terug_stap }}">Vorige vraag</a>
+      <a class="link-nav" href="/vragen/?stap={{ terug_stap }}">&lt; Terug</a>
       {% else %}
-      <span class="link-nav" aria-hidden="true"></span>
+      <span class="link-nav" aria-hidden="true">&lt; Terug</span>
       {% endif %} {% if is_laatste %}
       <span class="btn-nav" aria-hidden="true">Laatste vraag</span>
       {% else %}
-      <a class="btn-nav" href="/vragen/?stap={{ stap }}"
-        >Volgende zonder antwoord</a
-      >
+      <a class="btn-nav" href="/vragen/?stap={{ stap }}">Volgende vraag &gt;</a>
       {% endif %}
     </div>
     {% endif %}

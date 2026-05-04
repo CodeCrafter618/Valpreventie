@@ -1,10 +1,11 @@
 :root {
-    --vragen-bg: #d5d6d9;
-    --vragen-card: #f1f1f3;
-    --vragen-text: #141414;
+    --vragen-bg: #ececef;
+    --vragen-card: #f5f5f7;
+    --vragen-text: #111111;
     --vragen-blue: #1f57e7;
-    --vragen-blue-darker: #1a49c4;
-    --vragen-track: #e8e8ea;
+    --vragen-blue-darker: #1847c0;
+    --vragen-track: #eef0f3;
+    --vragen-muted: #595959;
 }
 
 * {
@@ -21,63 +22,107 @@ body {
     min-height: 100%;
     display: grid;
     place-items: center;
-    padding: 20px;
+    padding: 22px 18px 18px;
 }
 
 .vragen-card {
-    width: min(100%, 780px);
+    width: min(100%, 1080px);
     background: var(--vragen-card);
-    border-radius: 18px;
-    padding: 20px;
+    border-radius: 10px;
+    padding: 12px 14px 12px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 196px;
+    column-gap: 26px;
+    row-gap: 8px;
+    align-items: start;
 }
 
 .vragen-card h1 {
     margin: 0;
-    font-size: 36px;
-    line-height: 1.1;
+    grid-column: 1 / -1;
+    font-size: 17px;
+    line-height: 1.15;
+    font-weight: 700;
 }
 
 .vragen-step {
-    margin: 10px 0 18px;
+    margin: 0;
+    grid-column: 1 / -1;
     font-weight: 600;
-    color: #444;
+    color: var(--vragen-muted);
+    font-size: 14px;
 }
 
 .vragen-done {
-    margin: 0 0 12px;
+    margin: 0;
+    grid-column: 1 / -1;
     color: #1b6a2a;
     font-weight: 600;
 }
 
-.vraag-blok h2 {
-    margin: 0;
-    font-size: 34px;
-    line-height: 1.12;
+.vragen-body {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 196px;
+    gap: 26px;
+    align-items: start;
 }
 
-.vraag-blok p {
-    margin: 14px 0 0;
-    font-size: 23px;
+.vraag-blok h2 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    line-height: 1.1;
+    font-weight: 800;
+}
+
+.vraag-info,
+.vraag-subinfo {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.38;
+    color: #434343;
+}
+
+.vraag-subinfo {
+    margin-top: 2px;
+}
+
+.vraag-lijst {
+    margin: 6px 0 0;
+    padding-left: 20px;
+    color: #434343;
+    font-size: 14px;
+    line-height: 1.3;
+}
+
+.vraag-lijst li + li {
+    margin-top: 2px;
 }
 
 .keuze-form {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin: 26px 0;
+    gap: 12px;
+    justify-items: stretch;
+    align-content: start;
 }
 
 .btn-keuze {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     border: 0;
     border-radius: 999px;
     background: var(--vragen-blue);
     color: #fff;
-    font-size: 24px;
+    font-size: 16px;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     cursor: pointer;
-    min-height: 72px;
-    transition: transform 0.15s ease, background-color 0.2s ease;
+    min-height: 42px;
+    padding: 0 10px 0 24px;
+    transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .btn-keuze:hover,
@@ -86,13 +131,28 @@ body {
     transform: translateY(-1px);
 }
 
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    font-size: 10px;
+    line-height: 1;
+    flex: 0 0 auto;
+}
+
 .progress {
+    grid-column: 1 / -1;
     width: 100%;
     height: 16px;
-    border-radius: 999px;
+    border-radius: 0;
     background: var(--vragen-track);
     overflow: hidden;
-    margin: 8px 0 18px;
+    margin: 6px 0 0;
+    position: relative;
 }
 
 .progress-bar {
@@ -101,17 +161,28 @@ body {
     transition: width 0.25s ease;
 }
 
+.progress-label {
+    position: absolute;
+    top: -16px;
+    font-size: 12px;
+    color: #666;
+    font-weight: 600;
+}
+
 .vragen-nav {
+    grid-column: 1 / -1;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    padding-top: 2px;
 }
 
 .link-nav {
     text-decoration: none;
-    color: #343434;
+    color: #444;
     font-weight: 600;
+    font-size: 14px;
 }
 
 .btn-nav {
@@ -121,31 +192,32 @@ body {
     text-decoration: none;
     background: var(--vragen-blue);
     color: #fff;
-    min-height: 44px;
-    padding: 0 18px;
+    min-height: 28px;
+    padding: 0 16px;
     border-radius: 999px;
     font-weight: 600;
+    font-size: 12px;
 }
 
-@media (max-width: 760px) {
-    .vragen-card h1 {
-        font-size: 28px;
+@media (max-width: 900px) {
+    .vragen-card {
+        grid-template-columns: 1fr;
     }
 
-    .vraag-blok h2 {
-        font-size: 29px;
-    }
-
-    .vraag-blok p {
-        font-size: 20px;
-    }
-
-    .keuze-form {
+    .vragen-body {
         grid-template-columns: 1fr;
     }
 
     .btn-keuze {
-        font-size: 21px;
-        min-height: 62px;
+        width: min(100%, 300px);
+    }
+
+    .vragen-nav {
+        flex-wrap: wrap;
+    }
+
+    .progress-label {
+        left: 50%;
+        transform: translateX(-50%);
     }
 }

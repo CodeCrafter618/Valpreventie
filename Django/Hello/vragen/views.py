@@ -32,6 +32,18 @@ def index(request):
 
     huidige_index = _parse_index(request.GET.get("stap"), totaal)
     huidige_vraag = vragen_lijst[huidige_index]
+    extra_info_regels = [
+        regel.strip()
+        for regel in (huidige_vraag.extra_info or "").splitlines()
+        if regel.strip()
+    ]
+    extra_info_intro = extra_info_regels[0] if extra_info_regels else ""
+    extra_info_subtitel = extra_info_regels[1] if len(extra_info_regels) > 1 else ""
+    extra_info_punten = [
+        regel.lstrip("-• ").strip()
+        for regel in extra_info_regels[2:]
+        if regel.lstrip("-• ").strip()
+    ]
 
     if request.method == "POST":
         keuze = request.POST.get("keuze")
@@ -53,6 +65,9 @@ def index(request):
         {
             "heeft_vragen": True,
             "vraag": huidige_vraag,
+            "extra_info_intro": extra_info_intro,
+            "extra_info_subtitel": extra_info_subtitel,
+            "extra_info_punten": extra_info_punten,
             "stap": huidige_index + 1,
             "totaal": totaal,
             "voortgang": voortgang,
