@@ -3,6 +3,10 @@ from django.shortcuts import redirect, render
 from home.models import Antwoord, Vragen
 
 
+SESSION_KEY_VOLTOOID = "vragenlijst_voltooid"
+SESSION_KEY_ANTWOORD_IDS = "vragenlijst_resultaat_antwoord_ids"
+
+
 def _parse_index(raw_value: str, total: int) -> int:
     """Return a safe question index inside bounds."""
     try:
@@ -17,6 +21,10 @@ def _parse_index(raw_value: str, total: int) -> int:
 
 
 def index(request):
+    if request.GET.get("opnieuw") == "1":
+        request.session.pop(SESSION_KEY_VOLTOOID, None)
+        request.session.pop(SESSION_KEY_ANTWOORD_IDS, None)
+
     vragen_lijst = list(Vragen.objects.order_by("volgorde", "id"))
     totaal = len(vragen_lijst)
 
@@ -48,13 +56,19 @@ def index(request):
     if request.method == "POST":
         keuze = request.POST.get("keuze")
         if keuze in {"ja", "nee"}:
-            Antwoord.objects.create(vraag=huidige_vraag, ja_nee=keuze == "ja")
+            antwoord = Antwoord.objects.create(vraag=huidige_vraag, ja_nee=keuze == "ja")
+
+            antwoord_ids = request.session.get(SESSION_KEY_ANTWOORD_IDS, [])
+            antwoord_ids.append(antwoord.id)
+            request.session[SESSION_KEY_ANTWOORD_IDS] = antwoord_ids
+            request.session.modified = True
 
             volgende = min(huidige_index + 1, totaal - 1)
             if huidige_index < totaal - 1:
                 return redirect(f"/vragen/?stap={volgende}")
 
-            return redirect("/vragen/?klaar=1")
+            request.session[SESSION_KEY_VOLTOOID] = True
+            return redirect("/resultaat/")
 
     is_klaar = request.GET.get("klaar") == "1"
     voortgang = int(((huidige_index + 1) / totaal) * 100)

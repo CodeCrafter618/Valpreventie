@@ -7,13 +7,17 @@ beheer{% endblock %} {% block extra_head %}
 {% endblock %} {% block content %}
 <main class="beheer-wrap">
   <section class="beheer-card" aria-label="Vragenlijst beheer">
-    <h1>Vragenlijst beheer</h1>
-    <a
-      href="{% url 'vragenlijstbeheer-toevoegen' %}"
-      class="actie-link beheer-toevoegen-link"
-    >
-      Vraag toevoegen
-    </a>
+    <div class="beheer-topbar">
+      <h1>Vragenlijst beheer</h1>
+      <a
+        href="{% url 'vragenlijstbeheer-toevoegen' %}"
+        class="beheer-toevoegen-link"
+        aria-label="Vraag toevoegen"
+        title="Vraag toevoegen"
+      >
+        +
+      </a>
+    </div>
 
     <div class="table-scroll">
       <table class="beheer-table">

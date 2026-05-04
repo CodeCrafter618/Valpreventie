@@ -32,11 +32,43 @@ body {
     padding: 18px;
 }
 
-.beheer-card h1 {
-    margin: 0 0 16px;
+.beheer-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.beheer-topbar h1 {
+    margin: 0;
+    flex: 1;
     text-align: center;
     font-size: 30px;
     letter-spacing: 0.01em;
+}
+
+.beheer-toevoegen-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-right: 0;
+    border-radius: 50%;
+    background: var(--beheer-accent);
+    color: #fff;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 4px 12px rgba(51, 98, 204, 0.22);
+}
+
+.beheer-toevoegen-link:hover,
+.beheer-toevoegen-link:focus-visible {
+    text-decoration: none;
+    transform: translateY(-1px);
 }
 
 .table-scroll {
@@ -167,7 +199,11 @@ body {
 }
 
 @media (max-width: 900px) {
-    .beheer-card h1 {
+    .beheer-topbar {
+        flex-wrap: wrap;
+    }
+
+    .beheer-topbar h1 {
         font-size: 26px;
     }
 

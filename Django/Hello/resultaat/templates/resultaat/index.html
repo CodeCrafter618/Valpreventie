@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Resultaat{%
+endblock %} {% block extra_head %}
+<link rel="stylesheet" href="{% static 'resultaat/resultaat.css' %}" />
+{% endblock %} {% block content %}
+<main class="resultaat-wrap">
+  <section class="resultaat-card" aria-label="Resultaat van de vragenlijst">
+    <h1>Resultaat</h1>
+
+    {% if resultaat_beschikbaar %}
+    <p class="resultaat-label">{{ advies_label }}</p>
+    <p class="resultaat-score">
+      Score: <strong>{{ score }}</strong> van <strong>{{ max_score }}</strong>
+    </p>
+    <p class="resultaat-tekst">{{ advies_tekst }}</p>
+    <p class="resultaat-meta">
+      Gebaseerd op {{ aantal_antwoorden }} beantwoorde vragen.
+    </p>
+    <a class="resultaat-knop" href="/vragen/?opnieuw=1"
+      >Vragenlijst opnieuw invullen</a
+    >
+    {% else %}
+    <p class="resultaat-tekst">
+      Vul eerst de vragenlijst in om hier je resultaat te zien.
+    </p>
+    <a class="resultaat-knop" href="/vragen/?opnieuw=1">Vragenlijst invullen</a>
+    {% endif %}
+  </section>
+</main>
+{% endblock %}
