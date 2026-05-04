@@ -1,0 +1,73 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block title %}Vraag toevoegen{% endblock %}
+{% block extra_head %}
+<link
+  rel="stylesheet"
+  href="{% static 'vraag_toevoegen/vraag_toevoegen.css' %}"
+/>
+{% endblock %}
+{% block content %}
+<main class="beheer-wrap">
+  <section class="beheer-card" aria-label="Vraag toevoegen">
+    <h1>Vraag toevoegen (aparte pagina)</h1>
+
+    <form method="post" class="toevoeg-form">
+      {% csrf_token %}
+      <div class="toevoeg-grid">
+        <div class="form-group">
+          <label for="vraag">Vraag:</label>
+          <input
+            class="beheer-input"
+            type="text"
+            id="vraag"
+            name="vraag"
+            placeholder="Voer vraag in"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="extra_info">Extra info:</label>
+          <input
+            class="beheer-input"
+            type="text"
+            id="extra_info"
+            name="extra_info"
+            placeholder="Beschrijving (optioneel)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="weging">Weging:</label>
+          <input
+            class="beheer-input"
+            type="number"
+            id="weging"
+            name="weging"
+            placeholder="0"
+            value="0"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="volgorde">Volgorde:</label>
+          <input
+            class="beheer-input beheer-input-number"
+            type="number"
+            id="volgorde"
+            name="volgorde"
+            value="{{ volgende_volgorde }}"
+            min="1"
+          />
+        </div>
+
+        <div class="toevoeg-actions">
+          <button class="actie-btn" type="submit">Toevoegen</button>
+          <a href="/vragenlijstbeheer/" class="actie-link">Terug</a>
+        </div>
+      </div>
+    </form>
+  </section>
+</main>
+{% endblock %}

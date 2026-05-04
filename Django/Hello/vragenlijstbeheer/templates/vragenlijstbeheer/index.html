@@ -8,14 +8,22 @@ beheer{% endblock %} {% block extra_head %}
 <main class="beheer-wrap">
   <section class="beheer-card" aria-label="Vragenlijst beheer">
     <h1>Vragenlijst beheer</h1>
+    <a
+      href="{% url 'vragenlijstbeheer-toevoegen' %}"
+      class="actie-link beheer-toevoegen-link"
+    >
+      Vraag toevoegen
+    </a>
 
     <div class="table-scroll">
       <table class="beheer-table">
         <thead>
           <tr>
+            <th>Vraagnr</th>
             <th>#</th>
             <th>Titel</th>
             <th>Beschrijving</th>
+            <th>Weging</th>
             <th>Ja</th>
             <th>Nee</th>
             <th>Acties</th>
@@ -24,7 +32,18 @@ beheer{% endblock %} {% block extra_head %}
         <tbody>
           {% for vraag in vragen %} {% if edit_id == vraag.id %}
           <tr>
-            <td>{{ forloop.counter }}</td>
+            <td>
+              <input
+                class="beheer-input beheer-input-number"
+                type="number"
+                name="volgorde"
+                value="{{ vraag.volgorde }}"
+                form="edit-form-{{ vraag.id }}"
+                min="1"
+                aria-label="Vraagnr"
+              />
+            </td>
+            <td>{{ vraag.id }}</td>
             <td>
               <input
                 class="beheer-input"
@@ -45,6 +64,15 @@ beheer{% endblock %} {% block extra_head %}
 {{ vraag.extra_info }}</textarea
               >
             </td>
+            <td>
+              <input
+                class="beheer-input beheer-input-number"
+                type="number"
+                name="weging"
+                value="{{ vraag.weging }}"
+                form="edit-form-{{ vraag.id }}"
+              />
+            </td>
             <td>{{ vraag.ja_totaal }}</td>
             <td>{{ vraag.nee_totaal }}</td>
             <td class="acties-col">
@@ -56,12 +84,6 @@ beheer{% endblock %} {% block extra_head %}
                 {% csrf_token %}
                 <input type="hidden" name="actie" value="opslaan" />
                 <input type="hidden" name="vraag_id" value="{{ vraag.id }}" />
-                <input type="hidden" name="weging" value="{{ vraag.weging }}" />
-                <input
-                  type="hidden"
-                  name="volgorde"
-                  value="{{ vraag.volgorde }}"
-                />
                 <button class="actie-btn" type="submit">Opslaan</button>
               </form>
               <a href="/vragenlijstbeheer/" class="actie-link">Annuleer</a>
@@ -69,9 +91,11 @@ beheer{% endblock %} {% block extra_head %}
           </tr>
           {% else %}
           <tr>
-            <td>{{ forloop.counter }}</td>
+            <td>{{ vraag.volgorde }}</td>
+            <td>{{ vraag.id }}</td>
             <td>{{ vraag.vraag }}</td>
             <td>{{ vraag.extra_info|default:'-' }}</td>
+            <td>{{ vraag.weging }}</td>
             <td>{{ vraag.ja_totaal }}</td>
             <td>{{ vraag.nee_totaal }}</td>
             <td class="acties-col">
@@ -79,8 +103,9 @@ beheer{% endblock %} {% block extra_head %}
                 href="/vragenlijstbeheer/?edit={{ vraag.id }}"
                 class="actie-link"
                 aria-label="Bewerk vraag {{ vraag.id }}"
-                >Bewerk</a
               >
+                Bewerk
+              </a>
               <form method="post" class="inline-form">
                 {% csrf_token %}
                 <input type="hidden" name="actie" value="verwijder" />
@@ -97,7 +122,7 @@ beheer{% endblock %} {% block extra_head %}
           </tr>
           {% endif %} {% empty %}
           <tr>
-            <td colspan="6" class="leeg-regel">
+            <td colspan="8" class="leeg-regel">
               Er zijn nog geen vragen beschikbaar.
             </td>
           </tr>

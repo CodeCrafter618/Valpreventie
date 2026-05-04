@@ -1,4 +1,4 @@
-from django.db.models import Count, Q
+from django.db.models import Count, Max, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from home.models import Vragen
@@ -15,6 +15,7 @@ def index(request):
     if request.method == "POST":
         actie = request.POST.get("actie")
         vraag_id = _parse_int(request.POST.get("vraag_id"), 0)
+
         vraag = get_object_or_404(Vragen, id=vraag_id)
 
         if actie == "verwijder":
@@ -30,7 +31,6 @@ def index(request):
             return redirect("/vragenlijstbeheer/")
 
     edit_id = _parse_int(request.GET.get("edit"), 0)
-
     vragen = (
         Vragen.objects.order_by("volgorde", "id")
         .annotate(
@@ -45,5 +45,25 @@ def index(request):
         {
             "vragen": vragen,
             "edit_id": edit_id,
+        },
+    )
+
+
+def toevoegen(request):
+    if request.method == "POST":
+        hoogste_volgorde = Vragen.objects.aggregate(max_volgorde=Max("volgorde"))["max_volgorde"] or 0
+        Vragen.objects.create(
+            vraag=request.POST.get("vraag", "").strip(),
+            extra_info=request.POST.get("extra_info", "").strip(),
+            weging=_parse_int(request.POST.get("weging"), 0),
+            volgorde=_parse_int(request.POST.get("volgorde"), hoogste_volgorde + 1),
+        )
+        return redirect("/vragenlijstbeheer/")
+
+    return render(
+        request,
+        "vragenlijstbeheer/toevoegen/index.html",
+        {
+            "volgende_volgorde": (Vragen.objects.aggregate(max_volgorde=Max("volgorde"))["max_volgorde"] or 0) + 1,
         },
     )

@@ -22,5 +22,6 @@ urlpatterns = [
     path('login/', include('login.urls')),
     path('vragen/', include('vragen.urls')),
     path('vragenlijstbeheer/', include('vragenlijstbeheer.urls')),
+    path('vraag-toevoegen/', include('vraag_toevoegen.urls')),
     path('admin/', admin.site.urls),
 ]

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'home',
     'vragen',
     'vragenlijstbeheer',
+    'vraag_toevoegen',
 ]
 
 MIDDLEWARE = [
