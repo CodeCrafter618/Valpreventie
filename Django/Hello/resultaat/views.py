@@ -1,54 +1,113 @@
-from io import BytesIO
-from xml.sax.saxutils import escape
 from datetime import datetime
 
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from home.models import Antwoord
+
+SESSION_KEY_ANTWOORDEN = "vragenlijst_resultaat_antwoorden"
 
 
-SESSION_KEY_VOLTOOID = "vragenlijst_voltooid"
-SESSION_KEY_ANTWOORD_IDS = "vragenlijst_resultaat_antwoord_ids"
-
-
-def _bepaal_advies_score(score: int) -> tuple[str, str]:
-    """Return (label, tekst) using absolute score thresholds per spec."""
+def _bepaal_advies(score: int) -> tuple[str, str]:
     if score >= 12:
-        return ("Goed bezig!", "U heeft een laag valrisico.")
+        return "Goed bezig!", "U heeft een laag valrisico."
     if score >= 8:
-        return ("Er zijn verbeterpunten.", "Bekijk welke categorieën lager scoren.")
+        return "Er zijn verbeterpunten.", "Bekijk welke categorieen lager scoren."
     return (
         "Let op!",
         "U loopt een verhoogd risico. Het is raadzaam om actie te ondernemen of dit te bespreken met een professional.",
     )
 
 
-def _haal_antwoorden_op(request):
-    antwoord_ids = request.session.get(SESSION_KEY_ANTWOORD_IDS, [])
-    if not antwoord_ids:
+def _punten_uitleg() -> str:
+    return "Per Ja: 1 punt. Per Nee: 0 punten."
+
+
+def _haal_antwoorden_uit_session(request) -> list[dict]:
+    antwoorden = request.session.get(SESSION_KEY_ANTWOORDEN, [])
+    if not isinstance(antwoorden, list):
         return []
 
-    antwoorden = list(
-        Antwoord.objects.filter(id__in=antwoord_ids).select_related("vraag").order_by("vraag__volgorde", "id")
+    geldig = []
+    for antwoord in antwoorden:
+        if not isinstance(antwoord, dict):
+            continue
+        if "ja" not in antwoord:
+            continue
+
+        vraag_text = str(antwoord.get("vraag_text", "Vraag"))
+        geldig.append(
+            {
+                "vraag_text": vraag_text,
+                "ja": bool(antwoord.get("ja")),
+            }
+        )
+
+    return geldig
+
+
+def _pdf_escape(text: str) -> str:
+    return text.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
+
+
+def _build_simple_pdf(lines: list[str]) -> bytes:
+    # Minimal PDF generator without external dependencies.
+    y_start = 800
+    line_height = 16
+    text_commands = ["BT", "/F1 11 Tf", f"72 {y_start} Td"]
+
+    for i, line in enumerate(lines):
+        if i == 0:
+            text_commands.append(f"({_pdf_escape(line)}) Tj")
+        else:
+            text_commands.append(f"0 -{line_height} Td")
+            text_commands.append(f"({_pdf_escape(line)}) Tj")
+    text_commands.append("ET")
+
+    stream_data = "\n".join(text_commands).encode("latin-1", errors="replace")
+
+    objects = []
+    objects.append(b"1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n")
+    objects.append(b"2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n")
+    objects.append(
+        b"3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>\nendobj\n"
     )
-    if not antwoorden:
-        request.session.pop(SESSION_KEY_VOLTOOID, None)
-        request.session.pop(SESSION_KEY_ANTWOORD_IDS, None)
-        return []
+    objects.append(b"4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n")
+    objects.append(
+        b"5 0 obj\n<< /Length " + str(len(stream_data)).encode("ascii") + b" >>\nstream\n" + stream_data + b"\nendstream\nendobj\n"
+    )
 
-    return antwoorden
+    pdf = bytearray()
+    pdf.extend(b"%PDF-1.4\n")
+    offsets = [0]
+
+    for obj in objects:
+        offsets.append(len(pdf))
+        pdf.extend(obj)
+
+    xref_start = len(pdf)
+    pdf.extend(f"xref\n0 {len(objects) + 1}\n".encode("ascii"))
+    pdf.extend(b"0000000000 65535 f \n")
+    for off in offsets[1:]:
+        pdf.extend(f"{off:010d} 00000 n \n".encode("ascii"))
+
+    pdf.extend(
+        (
+            f"trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\n"
+            f"startxref\n{xref_start}\n%%EOF"
+        ).encode("ascii")
+    )
+
+    return bytes(pdf)
 
 
 def index(request):
-    antwoorden = _haal_antwoorden_op(request)
+    antwoorden = _haal_antwoorden_uit_session(request)
     if not antwoorden:
         return render(request, "resultaat/index.html", {"resultaat_beschikbaar": False})
 
-    # Score: each 'ja' is 1 point, 'nee' is 0
-    score = sum(1 for a in antwoorden if a.ja_nee)
+    score = sum(1 for a in antwoorden if a["ja"])
     max_score = len(antwoorden)
-    advies_label, advies_tekst = _bepaal_advies_score(score)
+    advies_label, advies_tekst = _bepaal_advies(score)
 
     return render(
         request,
@@ -59,152 +118,39 @@ def index(request):
             "max_score": max_score,
             "advies_label": advies_label,
             "advies_tekst": advies_tekst,
+            "punten_uitleg": _punten_uitleg(),
             "aantal_antwoorden": len(antwoorden),
+            "antwoorden": antwoorden,
         },
     )
 
 
 def download_pdf(request):
-    antwoorden = _haal_antwoorden_op(request)
+    antwoorden = _haal_antwoorden_uit_session(request)
     if not antwoorden:
         return redirect("resultaat:index")
 
-    score = sum(1 for a in antwoorden if a.ja_nee)
+    score = sum(1 for a in antwoorden if a["ja"])
     max_score = len(antwoorden)
-    advies_label, advies_tekst = _bepaal_advies_score(score)
+    advies_label, advies_tekst = _bepaal_advies(score)
 
-    try:
-        from reportlab.lib import colors
-        from reportlab.lib.pagesizes import A4
-        from reportlab.lib.styles import getSampleStyleSheet
-        from reportlab.lib.units import mm
-        from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
-    except Exception:
-        return HttpResponse(
-            "ReportLab is not installed. Install it with 'pip install reportlab' to enable PDF download.",
-            status=500,
-        )
+    lines = [
+        "Valpreventie vragenlijst - resultaat",
+        f"Datum: {datetime.now().strftime('%d-%m-%Y %H:%M')}",
+        "",
+        f"Score: {score} van {max_score}",
+        _punten_uitleg(),
+        f"Advies: {advies_label}",
+        advies_tekst,
+        "",
+        "Antwoorden:",
+    ]
 
-    buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=A4, leftMargin=18 * mm, rightMargin=18 * mm)
-    styles = getSampleStyleSheet()
+    for index_nr, antwoord in enumerate(antwoorden, start=1):
+        antwoord_text = "Ja" if antwoord["ja"] else "Nee"
+        lines.append(f"{index_nr}. {antwoord['vraag_text']} - {antwoord_text}")
 
-    story = []
-    story.append(Paragraph("Valpreventie Vragenlijst - Resultaat", styles["Heading1"]))
-    story.append(Spacer(1, 4 * mm))
-    story.append(Paragraph(f"Datum: {datetime.now().strftime('%d-%m-%Y %H:%M')}", styles["Normal"]))
-    story.append(Spacer(1, 4 * mm))
-    story.append(Paragraph(f"Score: {score} van {max_score} punten", styles["Heading2"]))
-    story.append(Paragraph(escape(advies_label), styles["Heading3"]))
-    story.append(Paragraph(escape(advies_tekst), styles["Normal"]))
-    story.append(Spacer(1, 6 * mm))
-
-    # Table of questions + answers
-    table_data = [["Vraag", "Antwoord"]]
-    for antwoord in antwoorden:
-        table_data.append([antwoord.vraag.vraag, "Ja" if antwoord.ja_nee else "Nee"])
-
-    table = Table(table_data, colWidths=[140 * mm, 30 * mm])
-    table.setStyle(
-        TableStyle(
-            [
-                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#2E5090")),
-                ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),
-                ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
-            ]
-        )
-    )
-    story.append(table)
-
-    doc.build(story)
-    pdf = buffer.getvalue()
-    buffer.close()
-
-    response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = f'attachment; filename="Valpreventie-Resultaat-{datetime.now().strftime("%Y%m%d")}.pdf"'
-    response.write(pdf)
-    return response
-    """Genereer en download een PDF van de resultaten"""
-    antwoord_ids = request.session.get(SESSION_KEY_ANTWOORD_IDS, [])
-    if not antwoord_ids:
-        return redirect("resultaat:index")
-
-    antwoorden = list(
-        Antwoord.objects.filter(id__in=antwoord_ids).select_related("vraag").order_by("vraag__volgorde")
-    )
-    
-    if not antwoorden:
-        return redirect("resultaat:index")
-
-    # Berekening
-    score = sum(1 for antwoord in antwoorden if antwoord.ja_nee)
-    max_score = len(antwoorden)
-    from django.shortcuts import redirect, render
-
-    from home.models import Antwoord
-
-
-    SESSION_KEY_VOLTOOID = "vragenlijst_voltooid"
-    SESSION_KEY_ANTWOORD_IDS = "vragenlijst_resultaat_antwoord_ids"
-
-
-    def _bepaal_advies(score: int, max_score: int) -> tuple[str, str]:
-        if max_score <= 0:
-            return "Onbekend", "Er is nog geen resultaat beschikbaar."
-
-        percentage = round((score / max_score) * 100)
-
-        if percentage >= 67:
-            return (
-                "Hoog risico",
-                "Er zijn duidelijke aandachtspunten. Neem de adviezen uit de vragenlijst serieus en bespreek dit eventueel met een zorgverlener.",
-            )
-        if percentage >= 34:
-            return (
-                "Matig risico",
-                "Er zijn enkele aandachtspunten. Let extra op en pas waar nodig je omgeving of gedrag aan.",
-            )
-        return (
-            "Laag risico",
-            "Je scoort gunstig op deze vragenlijst. Blijf alert op veranderingen in balans, zicht en omgeving.",
-        )
-
-
-    def index(request):
-        antwoord_ids = request.session.get(SESSION_KEY_ANTWOORD_IDS, [])
-        if not antwoord_ids:
-            return render(
-                request,
-                "resultaat/index.html",
-                {
-                    "resultaat_beschikbaar": False,
-                },
-            )
-
-        antwoorden = list(
-            Antwoord.objects.filter(id__in=antwoord_ids).select_related("vraag")
-        )
-        if not antwoorden:
-            request.session.pop(SESSION_KEY_VOLTOOID, None)
-            request.session.pop(SESSION_KEY_ANTWOORD_IDS, None)
-            return redirect("/vragen/")
-
-        max_score = sum(antwoord.vraag.weging for antwoord in antwoorden)
-        score = sum(antwoord.vraag.weging for antwoord in antwoorden if antwoord.ja_nee)
-        advies_label, advies_tekst = _bepaal_advies(score, max_score)
-
-        return render(
-            request,
-            "resultaat/index.html",
-            {
-                "resultaat_beschikbaar": True,
-                "score": score,
-                "max_score": max_score,
-                "advies_label": advies_label,
-                "advies_tekst": advies_tekst,
-                "aantal_antwoorden": len(antwoorden),
-            },
-        )
-
-    doc.build(story)
+    pdf_bytes = _build_simple_pdf(lines)
+    response = HttpResponse(pdf_bytes, content_type="application/pdf")
+    response["Content-Disposition"] = 'attachment; filename="resultaat-valpreventie.pdf"'
     return response

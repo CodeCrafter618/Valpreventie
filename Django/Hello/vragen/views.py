@@ -1,10 +1,10 @@
 from django.shortcuts import redirect, render
 
-from home.models import Antwoord, Vragen
+from home.models import Vragen
 
 
 SESSION_KEY_VOLTOOID = "vragenlijst_voltooid"
-SESSION_KEY_ANTWOORD_IDS = "vragenlijst_resultaat_antwoord_ids"
+SESSION_KEY_ANTWOORDEN = "vragenlijst_resultaat_antwoorden"
 
 
 def _parse_index(raw_value: str, total: int) -> int:
@@ -23,7 +23,7 @@ def _parse_index(raw_value: str, total: int) -> int:
 def index(request):
     if request.GET.get("opnieuw") == "1":
         request.session.pop(SESSION_KEY_VOLTOOID, None)
-        request.session.pop(SESSION_KEY_ANTWOORD_IDS, None)
+        request.session.pop(SESSION_KEY_ANTWOORDEN, None)
 
     vragen_lijst = list(Vragen.objects.order_by("volgorde", "id"))
     totaal = len(vragen_lijst)
@@ -56,11 +56,15 @@ def index(request):
     if request.method == "POST":
         keuze = request.POST.get("keuze")
         if keuze in {"ja", "nee"}:
-            antwoord = Antwoord.objects.create(vraag=huidige_vraag, ja_nee=keuze == "ja")
-
-            antwoord_ids = request.session.get(SESSION_KEY_ANTWOORD_IDS, [])
-            antwoord_ids.append(antwoord.id)
-            request.session[SESSION_KEY_ANTWOORD_IDS] = antwoord_ids
+            antwoorden = request.session.get(SESSION_KEY_ANTWOORDEN, [])
+            antwoorden.append(
+                {
+                    "vraag_id": huidige_vraag.id,
+                    "vraag_text": huidige_vraag.vraag,
+                    "ja": keuze == "ja",
+                }
+            )
+            request.session[SESSION_KEY_ANTWOORDEN] = antwoorden
             request.session.modified = True
 
             volgende = min(huidige_index + 1, totaal - 1)

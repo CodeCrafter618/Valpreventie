@@ -10,23 +10,36 @@ endblock %} {% block extra_head %}
     <p class="resultaat-label">{{ advies_label }}</p>
     <p class="resultaat-score">
       Score: <strong>{{ score }}</strong> van <strong>{{ max_score }}</strong>
-      <strong>{{ max_score }}</strong> punten
     </p>
-
     <p class="resultaat-tekst resultaat-tekst-sterk">{{ punten_uitleg }}</p>
     <p class="resultaat-tekst">{{ advies_tekst }}</p>
     <p class="resultaat-meta">
-      Gebaseerd op {{ aantal_antwoorden }} beantwoorde vragen. >
-      <a
-        class="resultaat-knop resultaat-knop-secundair"
-        href="/vragen/?opnieuw=1"
-        >Vragenlijst opnieuw invullen</a
-      >
-      {% else %}
+      Gebaseerd op {{ aantal_antwoorden }} beantwoorde vragen.
     </p>
 
+    <section class="resultaat-antwoorden" aria-label="Overzicht antwoorden">
+      <h2>Uw antwoorden</h2>
+      <ol>
+        {% for antwoord in antwoorden %}
+        <li>
+          {{ antwoord.vraag_text }} -
+          <strong>{% if antwoord.ja %}Ja{% else %}Nee{% endif %}</strong>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+
+    <div class="resultaat-acties">
+      <a class="resultaat-knop" href="{% url 'resultaat:download_pdf' %}"
+        >Download PDF</a
+      >
+      <a class="resultaat-knop" href="/vragen/?opnieuw=1"
+        >Vragenlijst opnieuw invullen</a
+      >
+    </div>
+    {% else %}
     <p class="resultaat-tekst">
-      Vul eerst de vragenlijst in om hier je resultaat te zien.
+      Vul eerst de vragenlijst in om hier uw resultaat te zien.
     </p>
     <a class="resultaat-knop" href="/vragen/?opnieuw=1">Vragenlijst invullen</a>
     {% endif %}

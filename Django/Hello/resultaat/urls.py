@@ -6,4 +6,5 @@ app_name = "resultaat"
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("download/", views.download_pdf, name="download_pdf"),
 ]
