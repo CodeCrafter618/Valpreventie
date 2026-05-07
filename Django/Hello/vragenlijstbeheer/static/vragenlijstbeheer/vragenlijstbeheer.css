@@ -52,23 +52,32 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     margin-right: 0;
     border-radius: 50%;
-    background: var(--beheer-accent);
+    background: linear-gradient(135deg, #4a78df 0%, var(--beheer-accent) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     color: #fff;
     text-decoration: none;
-    font-size: 30px;
-    font-weight: 700;
+    font-size: 34px;
+    font-weight: 600;
     line-height: 1;
-    box-shadow: 0 4px 12px rgba(51, 98, 204, 0.22);
+    box-shadow: 0 8px 18px rgba(51, 98, 204, 0.28);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
 .beheer-toevoegen-link:hover,
 .beheer-toevoegen-link:focus-visible {
     text-decoration: none;
-    transform: translateY(-1px);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 10px 22px rgba(51, 98, 204, 0.34);
+    filter: brightness(1.04);
+}
+
+.beheer-toevoegen-link:focus-visible {
+    outline: 3px solid rgba(51, 98, 204, 0.22);
+    outline-offset: 3px;
 }
 
 .table-scroll {
