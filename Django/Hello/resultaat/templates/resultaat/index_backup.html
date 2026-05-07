@@ -10,21 +10,15 @@ endblock %} {% block extra_head %}
     <p class="resultaat-label">{{ advies_label }}</p>
     <p class="resultaat-score">
       Score: <strong>{{ score }}</strong> van <strong>{{ max_score }}</strong>
-      <strong>{{ max_score }}</strong> punten
     </p>
-
-    <p class="resultaat-tekst resultaat-tekst-sterk">{{ punten_uitleg }}</p>
     <p class="resultaat-tekst">{{ advies_tekst }}</p>
     <p class="resultaat-meta">
-      Gebaseerd op {{ aantal_antwoorden }} beantwoorde vragen. >
-      <a
-        class="resultaat-knop resultaat-knop-secundair"
-        href="/vragen/?opnieuw=1"
-        >Vragenlijst opnieuw invullen</a
-      >
-      {% else %}
+      Gebaseerd op {{ aantal_antwoorden }} beantwoorde vragen.
     </p>
-
+    <a class="resultaat-knop" href="/vragen/?opnieuw=1"
+      >Vragenlijst opnieuw invullen</a
+    >
+    {% else %}
     <p class="resultaat-tekst">
       Vul eerst de vragenlijst in om hier je resultaat te zien.
     </p>
