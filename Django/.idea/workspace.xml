@@ -2,17 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="343c284e-1553-4677-9aca-c958622a4274" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hello/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hello/resultaat/static/resultaat/resultaat.css" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaat/static/resultaat/resultaat.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hello/resultaat/templates/resultaat/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaat/templates/resultaat/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hello/resultaat/templates/resultaat/index_backup.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hello/resultaat/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaat/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hello/resultaat/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaat/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/home/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/home/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/home/templates/home/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/home/templates/home/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/resultaten/static/resultaten/resultaten.css" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaten/static/resultaten/resultaten.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/resultaten/templates/resultaten/pdf_template.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaten/templates/resultaten/pdf_template.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/resultaten/templates/resultaten/resultaten.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaten/templates/resultaten/resultaten.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/resultaten/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaten/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/vraag_toevoegen/static/vraag_toevoegen/vraag_toevoegen.css" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vraag_toevoegen/static/vraag_toevoegen/vraag_toevoegen.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hello/vraag_toevoegen/templates/vraag_toevoegen/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vraag_toevoegen/templates/vraag_toevoegen/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hello/vraag_toevoegen/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vraag_toevoegen/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/vragen/static/vragen/vragen.css" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vragen/static/vragen/vragen.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/vragen/templates/vragen/vragen.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vragen/templates/vragen/vragen.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hello/vragen/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vragen/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hello/vragenlijstbeheer/templates/vragenlijstbeheer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vragenlijstbeheer/templates/vragenlijstbeheer/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hello/vragenlijstbeheer/templates/vragenlijstbeheer/toevoegen/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vragenlijstbeheer/templates/vragenlijstbeheer/toevoegen/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/vragenlijstbeheer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vragenlijstbeheer/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hello/vragenlijstbeheer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vragenlijstbeheer/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,23 +29,24 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="3DPBMaU7KQm1pLlqg8F48nm04dl" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "git-widget-placeholder": "Django-Oefenen",
-    "last_opened_file_path": "C:/Users/julia/OneDrive - Firda/Software Developer/Project 7 Boekenplank en valpreventie/Django/Valpreventie/Django"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Django-Oefenen&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/julia/OneDrive - Firda/Software Developer/Project 7 Boekenplank en valpreventie/Django/Valpreventie/Django&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

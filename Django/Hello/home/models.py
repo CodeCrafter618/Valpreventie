@@ -23,7 +23,8 @@ class Vragen(models.Model):
 	emoji = models.CharField(max_length=16, blank=True, default="")
 	vraag = models.CharField(max_length=255)
 	extra_info = models.CharField(max_length=255, blank=True)
-	weging = models.IntegerField()
+	weging = models.IntegerField(default=0)
+	weging_nee = models.IntegerField(default=0)
 	volgorde = models.IntegerField()
 
 	def __str__(self):

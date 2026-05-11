@@ -71,11 +71,12 @@ def index(request):
         for regel in extra_info_regels[2:]
         if regel.lstrip("-• ").strip()
     ]
+    foutmelding = ""
+    antwoorden = _haal_antwoorden_op(request)
 
     if request.method == "POST":
         keuze = request.POST.get("keuze")
         if keuze in {"ja", "nee"}:
-            antwoorden = _haal_antwoorden_op(request)
             antwoorden[str(huidige_vraag.id)] = keuze == "ja"
             request.session[SESSION_KEY_ANTWOORDEN] = antwoorden
             request.session.modified = True
@@ -86,10 +87,16 @@ def index(request):
 
             request.session[SESSION_KEY_VOLTOOID] = True
             return redirect('/resultaten/')
+        foutmelding = "Kies eerst JA of NEE om verder te gaan."
 
     is_klaar = request.GET.get("klaar") == "1"
     voortgang = int(((huidige_index + 1) / totaal) * 100)
-    antwoorden = _haal_antwoorden_op(request)
+    bestaand_antwoord = antwoorden.get(str(huidige_vraag.id))
+    gekozen_keuze = ""
+    if bestaand_antwoord is True:
+        gekozen_keuze = "ja"
+    elif bestaand_antwoord is False and str(huidige_vraag.id) in antwoorden:
+        gekozen_keuze = "nee"
 
     return render(
         request,
@@ -107,6 +114,7 @@ def index(request):
             "terug_stap": huidige_index - 1,
             "is_laatste": huidige_index == totaal - 1,
             "is_klaar": is_klaar,
-            "antwoordt_ja": antwoorden.get(str(huidige_vraag.id), False),
+            "gekozen_keuze": gekozen_keuze,
+            "foutmelding": foutmelding,
         },
     )

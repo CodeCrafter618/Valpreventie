@@ -2,6 +2,7 @@ from django.db.models import Max
 from django.shortcuts import get_object_or_404, redirect, render
 
 from home.models import Vragen
+from home.categorie_herkenning import bepaal_standaard_meta
 
 
 def _parse_int(value: str, fallback: int) -> int:
@@ -9,20 +10,6 @@ def _parse_int(value: str, fallback: int) -> int:
         return int(value)
     except (TypeError, ValueError):
         return fallback
-
-
-def _standaard_meta(volgorde: int) -> tuple[str, str]:
-    if volgorde <= 2:
-        return "Controleer je ogen", "👁️"
-    if volgorde <= 5:
-        return "Maak het huis veilig", "🏠"
-    if volgorde <= 7:
-        return "Eet gezond", "🍎"
-    if volgorde <= 9:
-        return "Controleer je medicijnen", "💊"
-    if volgorde <= 12:
-        return "Beweeg voldoende", "🏃"
-    return "Draag goede schoenen", "👟"
 
 
 def index(request):
@@ -40,9 +27,9 @@ def index(request):
             vraag.vraag = request.POST.get("vraag", "").strip() or vraag.vraag
             vraag.extra_info = request.POST.get("extra_info", "").strip()
             vraag.volgorde = _parse_int(request.POST.get("volgorde"), vraag.volgorde)
-            categorie, emoji = _standaard_meta(vraag.volgorde)
-            vraag.categorie = request.POST.get("categorie", "").strip() or categorie
-            vraag.emoji = request.POST.get("emoji", "").strip() or emoji
+            vraag.weging = _parse_int(request.POST.get("weging"), vraag.weging)
+            vraag.weging_nee = _parse_int(request.POST.get("weging_nee"), vraag.weging_nee)
+            vraag.categorie, vraag.emoji = bepaal_standaard_meta(vraag.vraag)
             vraag.save()
             return redirect("/vragenlijstbeheer/")
 
@@ -59,25 +46,4 @@ def index(request):
     )
 
 
-def toevoegen(request):
-    if request.method == "POST":
-        hoogste_volgorde = Vragen.objects.aggregate(max_volgorde=Max("volgorde"))["max_volgorde"] or 0
-        volgorde = _parse_int(request.POST.get("volgorde"), hoogste_volgorde + 1)
-        categorie, emoji = _standaard_meta(volgorde)
-        Vragen.objects.create(
-            vraag=request.POST.get("vraag", "").strip(),
-            extra_info=request.POST.get("extra_info", "").strip(),
-            weging=0,
-            volgorde=volgorde,
-            categorie=request.POST.get("categorie", "").strip() or categorie,
-            emoji=request.POST.get("emoji", "").strip() or emoji,
-        )
-        return redirect("/vragenlijstbeheer/")
 
-    return render(
-        request,
-        "vragenlijstbeheer/toevoegen/index.html",
-        {
-            "volgende_volgorde": (Vragen.objects.aggregate(max_volgorde=Max("volgorde"))["max_volgorde"] or 0) + 1,
-        },
-    )

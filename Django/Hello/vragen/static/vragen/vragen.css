@@ -1,8 +1,8 @@
 :root {
     --vragen-bg: #ececef;
-    --vragen-card: #f5f5f7;
+    --vragen-card: transparent;
     --vragen-text: #111111;
-    --vragen-blue: #1f57e7;
+    --vragen-blue: #1658ea;
     --vragen-blue-darker: #1847c0;
     --vragen-track: #eef0f3;
     --vragen-muted: #595959;
@@ -20,29 +20,35 @@ body {
 
 .vragen-wrap {
     min-height: 100%;
+    padding: 20px 0 0;
     display: grid;
     place-items: center;
-    padding: 22px 18px 18px;
 }
 
 .vragen-card {
-    width: min(100%, 1080px);
+    width: 100%;
+    max-width: 1120px;
     background: var(--vragen-card);
-    border-radius: 10px;
-    padding: 12px 14px 12px;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+    border-radius: 0;
+    padding: 16px 34px 0;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 196px;
-    column-gap: 26px;
-    row-gap: 8px;
+    grid-template-rows: auto 1fr auto auto;
+    row-gap: 14px;
     align-items: start;
 }
 
 .vragen-card h1 {
     margin: 0;
     grid-column: 1 / -1;
-    font-size: 17px;
+    font-size: 18px;
     line-height: 1.15;
+    font-weight: 700;
+}
+
+.vragen-label {
+    margin: 0;
+    color: #1c1c1c;
+    font-size: 18px;
     font-weight: 700;
 }
 
@@ -64,64 +70,69 @@ body {
 .vragen-body {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 196px;
-    gap: 26px;
+    grid-template-columns: minmax(0, 1fr) 230px;
+    gap: 48px;
     align-items: start;
 }
 
 .vraag-blok h2 {
-    margin: 0 0 8px;
-    font-size: 28px;
+    margin: 0 0 18px;
+    font-size: clamp(28px, 3vw, 38px);
     line-height: 1.1;
     font-weight: 800;
+    max-width: 760px;
 }
 
 .vraag-info,
 .vraag-subinfo {
     margin: 0;
-    font-size: 14px;
-    line-height: 1.38;
+    font-size: 16px;
+    line-height: 1.45;
     color: #434343;
+    max-width: 900px;
 }
 
 .vraag-subinfo {
-    margin-top: 2px;
+    margin-top: 4px;
+    font-weight: 600;
 }
 
 .vraag-lijst {
-    margin: 6px 0 0;
-    padding-left: 20px;
+    margin: 8px 0 0;
+    padding-left: 24px;
     color: #434343;
-    font-size: 14px;
-    line-height: 1.3;
+    font-size: 15px;
+    line-height: 1.5;
+    font-weight: 500;
 }
 
 .vraag-lijst li + li {
-    margin-top: 2px;
+    margin-top: 5px;
 }
 
 .keuze-form {
     display: grid;
-    gap: 12px;
+    gap: 18px;
     justify-items: stretch;
     align-content: start;
+    padding-top: 8px;
 }
 
 .btn-keuze {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 14px;
     border: 0;
     border-radius: 999px;
     background: var(--vragen-blue);
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 17px;
+    font-weight: 600;
     letter-spacing: 0.03em;
     cursor: pointer;
-    min-height: 42px;
-    padding: 0 10px 0 24px;
+    min-height: 48px;
+    padding: 0 16px 0 28px;
     transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
@@ -135,23 +146,46 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 17px;
-    height: 17px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    border: 2px solid currentColor;
-    font-size: 10px;
+    border: 3px solid #ffffff;
     line-height: 1;
     flex: 0 0 auto;
+    background: #ffffff;
+}
+
+.btn-keuze.is-selected {
+    color: #ffffff;
+}
+
+.btn-keuze.is-selected .btn-icon::before {
+    content: "✓";
+    font-size: 16px;
+    color: #0e3daa;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.btn-keuze:not(.is-selected) .btn-icon {
+    background: #ffffff;
+}
+
+.keuze-fout {
+    margin: 2px 8px 0;
+    color: #b91c1c;
+    font-weight: 600;
+    font-size: 16px;
 }
 
 .progress {
     grid-column: 1 / -1;
     width: 100%;
-    height: 16px;
+    height: 20px;
     border-radius: 0;
     background: var(--vragen-track);
-    overflow: hidden;
-    margin: 6px 0 0;
+    overflow: visible;
+    margin: 10px 0 0;
     position: relative;
 }
 
@@ -163,10 +197,12 @@ body {
 
 .progress-label {
     position: absolute;
-    top: -16px;
+    top: -18px;
     font-size: 12px;
-    color: #666;
+    color: #1c1c1c;
     font-weight: 600;
+    white-space: nowrap;
+    z-index: 1;
 }
 
 .vragen-nav {
@@ -175,7 +211,7 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding-top: 2px;
+    padding: 6px 0 0;
 }
 
 .link-nav {
@@ -193,31 +229,90 @@ body {
     background: var(--vragen-blue);
     color: #fff;
     min-height: 28px;
+    border: 0;
     padding: 0 16px;
     border-radius: 999px;
     font-weight: 600;
     font-size: 12px;
+    cursor: pointer;
+}
+
+.link-nav[aria-hidden="true"] {
+    opacity: 0.5;
 }
 
 @media (max-width: 900px) {
+    .vragen-wrap {
+        padding: 16px 0 0;
+    }
+
     .vragen-card {
-        grid-template-columns: 1fr;
+        padding: 12px 16px 0;
+        row-gap: 14px;
+    }
+
+    .vragen-label {
+        font-size: 16px;
     }
 
     .vragen-body {
         grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .vraag-blok h2 {
+        margin-bottom: 10px;
+        font-size: clamp(24px, 7vw, 34px);
+    }
+
+    .vraag-info,
+    .vraag-subinfo,
+    .vraag-lijst {
+        font-size: 14px;
     }
 
     .btn-keuze {
-        width: min(100%, 300px);
+        width: 100%;
+        min-height: 44px;
+        font-size: 16px;
+        padding: 0 16px 0 22px;
+    }
+
+    .btn-icon {
+        width: 24px;
+        height: 24px;
+        border-width: 3px;
+    }
+
+    .btn-keuze.is-selected .btn-icon::before {
+        font-size: 14px;
     }
 
     .vragen-nav {
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .link-nav {
+        font-size: 13px;
+    }
+
+    .btn-nav {
+        min-height: 40px;
+        font-size: 14px;
+        padding: 0 16px;
+        width: 100%;
+    }
+
+    .progress {
+        height: 18px;
     }
 
     .progress-label {
-        left: 50%;
-        transform: translateX(-50%);
+        top: -14px;
+        font-size: 11px;
+        left: auto !important;
+        right: 0;
+        transform: none;
     }
 }

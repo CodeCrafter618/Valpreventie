@@ -1,67 +1,144 @@
-.beheer-wrap { 
-  padding: 1rem; 
+:root {
+  --beheer-bg: #fafbfc;
+  --beheer-card: #ffffff;
+  --beheer-text: #111827;
+  --beheer-label: #374151;
+  --beheer-border: #e5e7eb;
+  --beheer-blue: #2563eb;
+  --beheer-blue-hover: #1d4ed8;
+  --beheer-gray: #6b7280;
 }
 
-.beheer-card { 
-  max-width: 900px; 
-  margin: 0 auto; 
+* {
+  box-sizing: border-box;
 }
 
-.toevoeg-grid { 
-  display: grid; 
-  gap: 1rem; 
-  grid-template-columns: 1fr 1fr; 
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: var(--beheer-bg);
+  color: var(--beheer-text);
 }
 
-.form-group {
+.beheer-wrap {
+  min-height: 100vh;
+  padding: 28px 24px 82px;
+}
+
+.beheer-card {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--beheer-card);
+  border-radius: 10px;
+  padding: 28px;
+  border: 1px solid var(--beheer-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.beheer-kicker {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--beheer-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.beheer-card h1 {
+  margin: 0 0 24px;
+  font-size: 28px;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--beheer-text);
+}
+
+.toevoeg-form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 20px;
 }
 
-.form-group label {
+.toevoeg-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+.toevoeg-veld {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.toevoeg-veld label {
   font-weight: 600;
-  color: #333;
-  font-size: 1rem;
-  margin-bottom: 0.25rem;
-  display: block;
+  color: var(--beheer-label);
+  font-size: 14px;
 }
 
-.beheer-input {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
+.beheer-input,
+.beheer-textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--beheer-border);
+  border-radius: 6px;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 14px;
+  color: var(--beheer-text);
+  background: #ffffff;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.toevoeg-actions { 
-  grid-column: 1 / -1; 
-  display: flex; 
-  gap: 0.5rem; 
+.beheer-input:focus,
+.beheer-textarea:focus {
+  outline: none;
+  border-color: var(--beheer-blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.beheer-input-number {
+  max-width: 100px;
+}
+
+.beheer-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.toevoeg-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.actie-btn,
+.actie-link {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
 .actie-btn {
-  padding: 0.5rem 1rem;
-  background-color: #0066cc;
+  background: var(--beheer-blue);
   color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
 }
 
 .actie-btn:hover {
-  background-color: #0052a3;
+  background: var(--beheer-blue-hover);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
 .actie-link {
-  padding: 0.5rem 1rem;
-  color: #0066cc;
-  text-decoration: none;
-  border: 1px solid #0066cc;
-  border-radius: 4px;
+  color: var(--beheer-blue);
+  border: 1px solid var(--beheer-blue);
+  background: transparent;
 }
 
 .actie-link:hover {
-  background-color: #f0f0f0;
+  background: rgba(37, 99, 235, 0.08);
 }

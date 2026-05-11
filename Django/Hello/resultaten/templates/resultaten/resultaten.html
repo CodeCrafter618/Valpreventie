@@ -11,9 +11,69 @@ Risicotest voor vallen{% endblock %} {% block extra_head %}
   {% else %}
   <div class="result-hero">
     <p class="result-eyebrow">Dit doe jij al</p>
-    <h1>Je hebt al {{ totale_score }} goede gewoontes</h1>
+    <h1>Je hebt al {{ totale_score }} vragen goed</h1>
     <p class="result-lead">{{ feedback.tekst }}</p>
   </div>
+
+  <section class="gemeente-zoek">
+    <div class="gemeente-zoek-header">
+      <h2>Zoek de gemeente</h2>
+      <p>
+        Typ een gemeentenaam om contactgegevens op te halen uit de database.
+      </p>
+    </div>
+
+    <form method="get" class="gemeente-zoek-form">
+      <input
+        type="text"
+        name="gemeente"
+        class="gemeente-zoek-input"
+        placeholder="Bijvoorbeeld: Bunnik"
+        value="{{ gemeente_zoekterm }}"
+      />
+      <button type="submit" class="gemeente-zoek-btn">Zoeken</button>
+    </form>
+
+    {% if gemeente_meldingen %}
+    <p class="gemeente-zoek-melding">{{ gemeente_meldingen.0 }}</p>
+    {% endif %} {% if gevonden_gemeente %}
+    <div class="gemeente-kaart">
+      <div>
+        <p class="gemeente-label">Gemeente</p>
+        <h3>{{ gevonden_gemeente.naam }}</h3>
+      </div>
+      <div class="gemeente-details">
+        {% if gevonden_gemeente.adres %}
+        <div>
+          <span>Adres</span>
+          <strong>
+            <a
+              class="gemeente-link-tekst"
+              href="https://www.google.com/maps/search/?api=1&query={{ gevonden_gemeente.naam|urlencode }}%20{{ gevonden_gemeente.adres|urlencode }}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ gevonden_gemeente.adres }}
+            </a>
+          </strong>
+        </div>
+        {% endif %} {% if gevonden_gemeente.telefoonnummer %}
+        <div>
+          <span>Telefoonnummer</span>
+          <strong>
+            <a
+              class="gemeente-link-tekst"
+              href="tel:{{ gevonden_gemeente.telefoonnummer|cut:' ' }}"
+            >
+              {{ gevonden_gemeente.telefoonnummer }}
+            </a>
+          </strong>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </section>
 
   <div class="result-divider"></div>
 
@@ -21,11 +81,13 @@ Risicotest voor vallen{% endblock %} {% block extra_head %}
     {% for cat_name, cat_data in categoriescore.items %}
     <article class="result-card">
       <div class="result-card-icon">{{ cat_data.emoji }}</div>
+      {% if cat_data.toon_kans_op %}
       <div class="result-card-score">Kans op</div>
+      {% endif %}
       <h2 class="result-card-title">{{ cat_name }}</h2>
       <p class="result-card-text">{{ cat_data.beschrijving }}</p>
       <div class="result-card-progress">
-        {{ cat_data.score }} van {{ cat_data.totaal }} goede gewoontes
+        {{ cat_data.score }} van {{ cat_data.aantal_vragen }} vragen
       </div>
     </article>
     {% endfor %}
@@ -33,7 +95,7 @@ Risicotest voor vallen{% endblock %} {% block extra_head %}
 
   <div class="result-actions">
     <button type="button" class="result-download" onclick="window.print()">
-      Download
+      Afdrukken
     </button>
   </div>
   {% endif %}
