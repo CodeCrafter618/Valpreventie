@@ -11,7 +11,8 @@ class Question(models.Model):
 
 class Gemeente(models.Model):
 	naam = models.CharField(max_length=255)
-	contact = models.CharField(max_length=255)
+	telefoonnummer = models.CharField(max_length=255, blank=True, default="")
+	adres = models.CharField(max_length=255, blank=True, default="")
 
 	def __str__(self):
 		return self.naam
