@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="343c284e-1553-4677-9aca-c958622a4274" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Hello/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/resultaat/static/resultaat/resultaat.css" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaat/static/resultaat/resultaat.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/resultaat/templates/resultaat/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaat/templates/resultaat/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/resultaat/templates/resultaat/index_backup.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/resultaat/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaat/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/resultaat/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/resultaat/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/vraag_toevoegen/templates/vraag_toevoegen/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vraag_toevoegen/templates/vraag_toevoegen/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/vraag_toevoegen/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vraag_toevoegen/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/vragen/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vragen/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/vragenlijstbeheer/templates/vragenlijstbeheer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vragenlijstbeheer/templates/vragenlijstbeheer/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/vragenlijstbeheer/templates/vragenlijstbeheer/toevoegen/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vragenlijstbeheer/templates/vragenlijstbeheer/toevoegen/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hello/vragenlijstbeheer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/vragenlijstbeheer/views.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="3DPBMaU7KQm1pLlqg8F48nm04dl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "git-widget-placeholder": "Django-Oefenen",
+    "last_opened_file_path": "C:/Users/julia/OneDrive - Firda/Software Developer/Project 7 Boekenplank en valpreventie/Django/Valpreventie/Django"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-4762d8aabb82-6d6dccd035ac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.30387.173" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="343c284e-1553-4677-9aca-c958622a4274" name="Changes" comment="" />
+      <created>1778173778802</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1778173778802</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

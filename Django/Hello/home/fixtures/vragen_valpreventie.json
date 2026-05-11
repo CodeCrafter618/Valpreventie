@@ -1,0 +1,170 @@
+[
+  {
+    "model": "home.vragen",
+    "pk": 1,
+    "fields": {
+      "categorie": "Controleer je ogen",
+      "emoji": "👁️",
+      "vraag": "Heeft u in het afgelopen jaar uw ogen laten controleren door een opticien of oogarts?",
+      "extra_info": "Regelmatige controle helpt risico op vallen te verminderen.\nEen opticien of oogarts kan uw gezichtsvermogen controleren.",
+      "weging": 1,
+      "volgorde": 1
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 2,
+    "fields": {
+      "categorie": "Controleer je ogen",
+      "emoji": "👁️",
+      "vraag": "Draagt u de juiste bril (of lenzen) voor de juiste activiteit (bijv. een aparte leesbril en een bril voor veraf)?",
+      "extra_info": "De juiste bril voor elke activiteit is belangrijk.\nLeesbril, bril voor veraf, en bifocale brillen hebben elk hun doel.",
+      "weging": 1,
+      "volgorde": 2
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 3,
+    "fields": {
+      "categorie": "Maak het huis veilig",
+      "emoji": "🏠",
+      "vraag": "Ligt uw vloer overal vrij van obstakels zoals losse kleedjes, drempels of rondslingerende snoeren?",
+      "extra_info": "Zorg dat de vloer altijd schoon en vrij is.\n- Zet snoeren weg\n- Zet losse kleedjes vast met tape\n- Verwijder drempels waar mogelijk",
+      "weging": 1,
+      "volgorde": 3
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 4,
+    "fields": {
+      "categorie": "Maak het huis veilig",
+      "emoji": "🏠",
+      "vraag": "Is er in elke kamer (ook op de overloop en in de badkamer) voldoende verlichting, zodat u alles goed ziet?",
+      "extra_info": "Goede verlichting voorkomt struikelen en vallen.\n- Plaats lampen op strategische plaatsen\n- Zorg voor goede TL-verlichting\n- Installeer nachtlampjes op de trap",
+      "weging": 1,
+      "volgorde": 4
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 5,
+    "fields": {
+      "categorie": "Maak het huis veilig",
+      "emoji": "🏠",
+      "vraag": "Zijn er stevige handgrepen aanwezig in de douche en bij het toilet?",
+      "extra_info": "Handgrepen verminderen valrisico's in natte ruimtes.\n- Bevestig handgrepen stevig aan de muur\n- Zorg dat ze op ooghoogte zitten\n- Controleer ze regelmatig op sterkte",
+      "weging": 1,
+      "volgorde": 5
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 6,
+    "fields": {
+      "categorie": "Eet gezond",
+      "emoji": "🍎",
+      "vraag": "Eet u dagelijks voldoende eiwitrijke producten (zoals vlees, vis, zuivel, eieren of peulvruchten) om uw spieren sterk te houden?",
+      "extra_info": "Eiwit helpt uw spieren sterk te houden.\nSterkere spieren verminderen valrisico's.\n- Eet eiwit bij elk hoofdmaaltijd\n- Voorbeelden: vlees, vis, zuivel, peulvruchten",
+      "weging": 1,
+      "volgorde": 6
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 7,
+    "fields": {
+      "categorie": "Eet gezond",
+      "emoji": "🍎",
+      "vraag": "Drinkt u dagelijks minstens 1,5 tot 2 liter vocht (water, thee, koffie) om duizeligheid te voorkomen?",
+      "extra_info": "Voldoende vocht voorkomen duizeligheid en verwardheid.\n- Drink regelmatig water\n- Thee en koffie tellen ook mee\n- Drink meer in warm weer of bij inspanning",
+      "weging": 1,
+      "volgorde": 7
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 8,
+    "fields": {
+      "categorie": "Controleer je medicijnen",
+      "emoji": "💊",
+      "vraag": "Heeft u uw medicijngebruik in het afgelopen jaar besproken met uw huisarts of apotheker?",
+      "extra_info": "Sommige medicijnen kunnen duizeligheid of verlies van balans veroorzaken.\n- Bespreek alle medicijnen\n- Vraag naar bijwerkingen\n- Controleer op wisselwerkingen",
+      "weging": 1,
+      "volgorde": 8
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 9,
+    "fields": {
+      "categorie": "Controleer je medicijnen",
+      "emoji": "💊",
+      "vraag": "Heeft u geen last van bijwerkingen zoals duizeligheid of slaperigheid door uw medicijnen?",
+      "extra_info": "Bijwerkingen kunnen de kans op vallen vergroten.\n- Meld bijwerkingen aan uw arts\n- Voorzie uw arts van volledige informatie\n- Vraag om alternatieven als nodig",
+      "weging": 1,
+      "volgorde": 9
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 10,
+    "fields": {
+      "categorie": "Beweeg voldoende",
+      "emoji": "🏃",
+      "vraag": "Doet u minstens twee keer per week oefeningen die gericht zijn op het verbeteren van uw balans en spierkracht?",
+      "extra_info": "Balans- en krachttraining is essentieel.\n- Tai Chi is goed voor balans\n- Gewichtheffen of elastieke banden voor kracht\n- Yoga kan ook helpen",
+      "weging": 1,
+      "volgorde": 10
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 11,
+    "fields": {
+      "categorie": "Beweeg voldoende",
+      "emoji": "🏃",
+      "vraag": "Beweegt u dagelijks minstens 30 minuten (bijv. wandelen, fietsen of tuinieren)?",
+      "extra_info": "Regelmatige beweging helpt uw algehele gezondheid.\n- Wandelen is makkelijk en goed\n- Fietsen is ook uitstekend\n- Tuinieren telt ook als beweging",
+      "weging": 1,
+      "volgorde": 11
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 12,
+    "fields": {
+      "categorie": "Beweeg voldoende",
+      "emoji": "🏃",
+      "vraag": "Kunt u zonder uw handen te gebruiken opstaan uit een stoel?",
+      "extra_info": "Dit test uw spierkracht en balans.\n- Dit is een belangrijk teken van sterkte\n- Oefenen helpt dit te verbeteren\n- Oefen dagelijks op- en neergaan",
+      "weging": 1,
+      "volgorde": 12
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 13,
+    "fields": {
+      "categorie": "Draag goede schoenen",
+      "emoji": "👟",
+      "vraag": "Hebben uw schoenen die u dagelijks draagt een stevige, platte zool met voldoende grip?",
+      "extra_info": "Juiste schoenen voorkomen uitglijden.\n- Kies schoenen met goede grip\n- Zolen mogen niet glad zijn\n- Sneakers zijn beter dan lichte schoenen",
+      "weging": 1,
+      "volgorde": 13
+    }
+  },
+  {
+    "model": "home.vragen",
+    "pk": 14,
+    "fields": {
+      "categorie": "Draag goede schoenen",
+      "emoji": "👟",
+      "vraag": "Draagt u binnenshuis altijd dichte schoenen of pantoffels met een stevige hiel (dus geen gladde sokken of slippers)?",
+      "extra_info": "Gesloten voetwerk is veel veiliger thuis.\n- Vermijd open slippers\n- Sokken alleen zijn zeer glad\n- Dichte pantoffels of slippers met hiel zijn beter",
+      "weging": 1,
+      "volgorde": 14
+    }
+  }
+]

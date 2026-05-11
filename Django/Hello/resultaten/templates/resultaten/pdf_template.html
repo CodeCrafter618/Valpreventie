@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+{% load result_filters %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Risicotest Resultaten</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: white;
+        color: #333;
+        padding: 40px;
+      }
+
+      .pdf-container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 20px;
+      }
+
+      .header h1 {
+        font-size: 32px;
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .header p {
+        font-size: 14px;
+        color: #666;
+      }
+
+      .score-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 8px;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+
+      .score-number {
+        font-size: 48px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .score-label {
+        font-size: 18px;
+        opacity: 0.9;
+      }
+
+      .feedback {
+        background: #f8f9fa;
+        border-left: 5px solid #667eea;
+        padding: 20px;
+        margin-bottom: 40px;
+        border-radius: 4px;
+      }
+
+      .feedback h2 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 20px;
+      }
+
+      .feedback p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .categories-title {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .categories-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+
+      .category-card {
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        page-break-inside: avoid;
+      }
+
+      .card-emoji {
+        font-size: 40px;
+        margin-bottom: 10px;
+      }
+
+      .card-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .card-description {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 12px;
+        line-height: 1.5;
+      }
+
+      .card-score {
+        font-size: 14px;
+        font-weight: 600;
+        color: #667eea;
+        background: white;
+        padding: 8px;
+        border-radius: 4px;
+      }
+
+      .disclaimer {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        border-radius: 4px;
+        padding: 15px;
+        font-size: 12px;
+        color: #856404;
+        line-height: 1.6;
+        margin-top: 40px;
+      }
+
+      .disclaimer strong {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      @media print {
+        body {
+          padding: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pdf-container">
+      <div class="header">
+        <h1>Uw Risicotest Resultaten</h1>
+        <p>Valpreventie Vragenlijst</p>
+      </div>
+
+      <div class="score-box">
+        <div class="score-number">{{ totale_score }}/{{ max_score }}</div>
+        <div class="score-label">Punten</div>
+      </div>
+
+      <div class="feedback">
+        <h2>{{ feedback.titel }}</h2>
+        <p>{{ feedback.tekst }}</p>
+      </div>
+
+      <div class="categories-title">Uw bevindingen per categorie</div>
+
+      <div class="categories-grid">
+        {% for cat_name, cat_data in categoriescore.items %}
+        <div class="category-card">
+          <div class="card-emoji">{{ cat_data.emoji }}</div>
+          <div class="card-title">{{ cat_name }}</div>
+          <div class="card-description">
+            {{ category_descriptions|get_item:cat_name }}
+          </div>
+          <div class="card-score">
+            {{ cat_data.score }} van {{ cat_data.totaal }} goede gewoontes
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong>
+        Deze vragenlijst is bedoeld als algemene indicatie. Bij twijfel over uw
+        gezondheid of mobiliteit is het altijd verstandig om contact op te nemen
+        met uw huisarts of een fysiotherapeut.
+      </div>
+    </div>
+  </body>
+</html>

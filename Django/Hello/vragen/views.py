@@ -20,6 +20,25 @@ def _parse_index(raw_value: str, total: int) -> int:
     return max(0, min(value, total - 1))
 
 
+def _haal_antwoorden_op(request) -> dict[str, bool]:
+    opgeslagen = request.session.get(SESSION_KEY_ANTWOORDEN, {})
+    if isinstance(opgeslagen, dict):
+        return {str(vraag_id): bool(antwoord) for vraag_id, antwoord in opgeslagen.items()}
+
+    if isinstance(opgeslagen, list):
+        antwoorden = {}
+        for antwoord in opgeslagen:
+            if not isinstance(antwoord, dict):
+                continue
+            vraag_id = antwoord.get("vraag_id")
+            if vraag_id is None:
+                continue
+            antwoorden[str(vraag_id)] = bool(antwoord.get("ja"))
+        return antwoorden
+
+    return {}
+
+
 def index(request):
     if request.GET.get("opnieuw") == "1":
         request.session.pop(SESSION_KEY_VOLTOOID, None)
@@ -56,14 +75,8 @@ def index(request):
     if request.method == "POST":
         keuze = request.POST.get("keuze")
         if keuze in {"ja", "nee"}:
-            antwoorden = request.session.get(SESSION_KEY_ANTWOORDEN, [])
-            antwoorden.append(
-                {
-                    "vraag_id": huidige_vraag.id,
-                    "vraag_text": huidige_vraag.vraag,
-                    "ja": keuze == "ja",
-                }
-            )
+            antwoorden = _haal_antwoorden_op(request)
+            antwoorden[str(huidige_vraag.id)] = keuze == "ja"
             request.session[SESSION_KEY_ANTWOORDEN] = antwoorden
             request.session.modified = True
 
@@ -72,10 +85,11 @@ def index(request):
                 return redirect(f"/vragen/?stap={volgende}")
 
             request.session[SESSION_KEY_VOLTOOID] = True
-            return redirect("/resultaat/")
+            return redirect('/resultaten/')
 
     is_klaar = request.GET.get("klaar") == "1"
     voortgang = int(((huidige_index + 1) / totaal) * 100)
+    antwoorden = _haal_antwoorden_op(request)
 
     return render(
         request,
@@ -93,5 +107,6 @@ def index(request):
             "terug_stap": huidige_index - 1,
             "is_laatste": huidige_index == totaal - 1,
             "is_klaar": is_klaar,
+            "antwoordt_ja": antwoorden.get(str(huidige_vraag.id), False),
         },
     )

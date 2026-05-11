@@ -14,11 +14,8 @@
           height="32"
         />
       </a>
-      {% if request.session.vragenlijst_voltooid %}
-      <a href="/resultaat/" class="site-header__nav-link">Resultaat</a>
-      {% else %}
       <a href="/vragen/" class="site-header__nav-link">Vragenlijst invullen</a>
-      {% endif %} {% if request.user.is_authenticated %}
+      {% if request.user.is_authenticated %}
       <a href="/vragenlijstbeheer/" class="site-header__nav-link"
         >Vragenlijst beheer</a
       >

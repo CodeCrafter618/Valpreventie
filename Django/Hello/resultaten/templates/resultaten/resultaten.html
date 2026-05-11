@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% load static %} {% block title %}Resultaten -
+Risicotest voor vallen{% endblock %} {% block extra_head %}
+<link rel="stylesheet" href="{% static 'resultaten/resultaten.css' %}" />
+{% endblock %} {% block content %}
+<section class="result-page">
+  {% if not heeft_vragen %}
+  <div class="result-empty">
+    <h1>Uw Risicotest Resultaten</h1>
+    <p>Er zijn geen vragen beschikbaar. Vul eerst de vragenlijst in.</p>
+  </div>
+  {% else %}
+  <div class="result-hero">
+    <p class="result-eyebrow">Dit doe jij al</p>
+    <h1>Je hebt al {{ totale_score }} goede gewoontes</h1>
+    <p class="result-lead">{{ feedback.tekst }}</p>
+  </div>
+
+  <div class="result-divider"></div>
+
+  <div class="result-grid">
+    {% for cat_name, cat_data in categoriescore.items %}
+    <article class="result-card">
+      <div class="result-card-icon">{{ cat_data.emoji }}</div>
+      <div class="result-card-score">Kans op</div>
+      <h2 class="result-card-title">{{ cat_name }}</h2>
+      <p class="result-card-text">{{ cat_data.beschrijving }}</p>
+      <div class="result-card-progress">
+        {{ cat_data.score }} van {{ cat_data.totaal }} goede gewoontes
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+  <div class="result-actions">
+    <button type="button" class="result-download" onclick="window.print()">
+      Download
+    </button>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

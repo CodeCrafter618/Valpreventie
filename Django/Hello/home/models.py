@@ -18,6 +18,8 @@ class Gemeente(models.Model):
 
 
 class Vragen(models.Model):
+	categorie = models.CharField(max_length=80, blank=True, default="")
+	emoji = models.CharField(max_length=16, blank=True, default="")
 	vraag = models.CharField(max_length=255)
 	extra_info = models.CharField(max_length=255, blank=True)
 	weging = models.IntegerField()

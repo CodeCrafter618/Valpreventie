@@ -106,28 +106,26 @@ body {
 
 .beheer-table th:nth-child(1),
 .beheer-table td:nth-child(1),
-.beheer-table th:nth-child(2),
-.beheer-table td:nth-child(2),
+.beheer-table th:nth-child(4),
+.beheer-table td:nth-child(4),
 .beheer-table th:nth-child(5),
-.beheer-table td:nth-child(5),
-.beheer-table th:nth-child(6),
-.beheer-table td:nth-child(6) {
+.beheer-table td:nth-child(5) {
     text-align: center;
     width: 60px;
 }
 
-.beheer-table th:nth-child(3),
-.beheer-table td:nth-child(3) {
+.beheer-table th:nth-child(2),
+.beheer-table td:nth-child(2) {
     width: 260px;
 }
 
-.beheer-table th:nth-child(4),
-.beheer-table td:nth-child(4) {
+.beheer-table th:nth-child(3),
+.beheer-table td:nth-child(3) {
     min-width: 320px;
 }
 
-.beheer-table th:nth-child(7),
-.beheer-table td:nth-child(7) {
+.beheer-table th:nth-child(6),
+.beheer-table td:nth-child(6) {
     width: 90px;
 }
 
@@ -184,27 +182,14 @@ body {
     min-height: 70px;
 }
 
+.beheer-input-number {
+    width: 60px;
+}
+
 .leeg-regel {
     text-align: center;
     color: #5b5b5b;
     font-style: italic;
-}
-
-.toevoeg-grid {
-    display: grid;
-    gap: 10px;
-}
-
-.toevoeg-veld label {
-    display: block;
-    margin-bottom: 4px;
-    font-weight: 700;
-}
-
-.toevoeg-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 4px;
 }
 
 @media (max-width: 900px) {

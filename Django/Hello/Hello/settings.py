@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'login',
     'home',
     'vragen',
-    'resultaat',
     'vragenlijstbeheer',
     'vraag_toevoegen',
+    'resultaten',
 ]
 
 MIDDLEWARE = [

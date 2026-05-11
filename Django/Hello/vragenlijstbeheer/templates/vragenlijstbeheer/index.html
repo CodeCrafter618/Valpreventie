@@ -14,20 +14,17 @@ beheer{% endblock %} {% block extra_head %}
         class="beheer-toevoegen-link"
         aria-label="Vraag toevoegen"
         title="Vraag toevoegen"
+        >+</a
       >
-        +
-      </a>
     </div>
 
     <div class="table-scroll">
       <table class="beheer-table">
         <thead>
           <tr>
-            <th>Vraagnr</th>
             <th>#</th>
             <th>Titel</th>
             <th>Beschrijving</th>
-            <th>Weging</th>
             <th>Ja</th>
             <th>Nee</th>
             <th>Acties</th>
@@ -44,10 +41,9 @@ beheer{% endblock %} {% block extra_head %}
                 value="{{ vraag.volgorde }}"
                 form="edit-form-{{ vraag.id }}"
                 min="1"
-                aria-label="Vraagnr"
+                aria-label="#"
               />
             </td>
-            <td>{{ vraag.id }}</td>
             <td>
               <input
                 class="beheer-input"
@@ -68,17 +64,8 @@ beheer{% endblock %} {% block extra_head %}
 {{ vraag.extra_info }}</textarea
               >
             </td>
-            <td>
-              <input
-                class="beheer-input beheer-input-number"
-                type="number"
-                name="weging"
-                value="{{ vraag.weging }}"
-                form="edit-form-{{ vraag.id }}"
-              />
-            </td>
-            <td>{{ vraag.ja_totaal }}</td>
-            <td>{{ vraag.nee_totaal }}</td>
+            <td>1</td>
+            <td>0</td>
             <td class="acties-col">
               <form
                 id="edit-form-{{ vraag.id }}"
@@ -88,28 +75,25 @@ beheer{% endblock %} {% block extra_head %}
                 {% csrf_token %}
                 <input type="hidden" name="actie" value="opslaan" />
                 <input type="hidden" name="vraag_id" value="{{ vraag.id }}" />
-                <button class="actie-btn" type="submit">Opslaan</button>
+                <button class="actie-btn" type="submit">✏️</button>
               </form>
-              <a href="/vragenlijstbeheer/" class="actie-link">Annuleer</a>
+              <a href="/vragenlijstbeheer/" class="actie-link">↩️</a>
             </td>
           </tr>
           {% else %}
           <tr>
             <td>{{ vraag.volgorde }}</td>
-            <td>{{ vraag.id }}</td>
             <td>{{ vraag.vraag }}</td>
             <td>{{ vraag.extra_info|default:'-' }}</td>
-            <td>{{ vraag.weging }}</td>
-            <td>{{ vraag.ja_totaal }}</td>
-            <td>{{ vraag.nee_totaal }}</td>
+            <td>1</td>
+            <td>0</td>
             <td class="acties-col">
               <a
                 href="/vragenlijstbeheer/?edit={{ vraag.id }}"
                 class="actie-link"
                 aria-label="Bewerk vraag {{ vraag.id }}"
+                >✏️</a
               >
-                Bewerk
-              </a>
               <form method="post" class="inline-form">
                 {% csrf_token %}
                 <input type="hidden" name="actie" value="verwijder" />
@@ -119,14 +103,14 @@ beheer{% endblock %} {% block extra_head %}
                   class="actie-btn actie-btn-danger"
                   aria-label="Verwijder vraag {{ vraag.id }}"
                 >
-                  Verwijder
+                  🗑️
                 </button>
               </form>
             </td>
           </tr>
           {% endif %} {% empty %}
           <tr>
-            <td colspan="8" class="leeg-regel">
+            <td colspan="6" class="leeg-regel">
               Er zijn nog geen vragen beschikbaar.
             </td>
           </tr>

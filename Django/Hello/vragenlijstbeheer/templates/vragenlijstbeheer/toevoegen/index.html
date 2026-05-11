@@ -5,50 +5,39 @@ endblock %} {% block extra_head %}
   href="{% static 'vragenlijstbeheer/vragenlijstbeheer.css' %}"
 />
 {% endblock %} {% block content %}
-<main class="beheer-wrap">
+<main class="beheer-page">
   <section class="beheer-card" aria-label="Vraag toevoegen">
+    <p class="beheer-kicker">Vragenlijst beheer</p>
     <h1>Vraag toevoegen</h1>
 
     <form method="post" class="toevoeg-form">
       {% csrf_token %}
       <div class="toevoeg-grid">
         <div class="toevoeg-veld">
-          <label for="vraag">Vraag:</label>
+          <label for="vraag">Titel</label>
           <input
             class="beheer-input"
             type="text"
             id="vraag"
             name="vraag"
-            placeholder="Nieuwe vraag"
+            placeholder="Bijvoorbeeld: Controleer je ogen"
             required
           />
         </div>
 
         <div class="toevoeg-veld">
-          <label for="extra_info">Extra info:</label>
-          <input
-            class="beheer-input"
-            type="text"
+          <label for="extra_info">Beschrijving</label>
+          <textarea
+            class="beheer-textarea"
             id="extra_info"
             name="extra_info"
-            placeholder="Beschrijving"
-          />
+            rows="4"
+            placeholder="De volledige vraag"
+          ></textarea>
         </div>
 
         <div class="toevoeg-veld">
-          <label for="weging">Weging:</label>
-          <input
-            class="beheer-input"
-            type="number"
-            id="weging"
-            name="weging"
-            placeholder="Weging"
-            value="0"
-          />
-        </div>
-
-        <div class="toevoeg-veld">
-          <label for="volgorde">Volgorde:</label>
+          <label for="volgorde">#</label>
           <input
             class="beheer-input beheer-input-number"
             type="number"
@@ -56,13 +45,15 @@ endblock %} {% block extra_head %}
             name="volgorde"
             value="{{ volgende_volgorde }}"
             min="1"
-            aria-label="Vraagnr"
+            aria-label="#"
           />
         </div>
 
         <div class="toevoeg-actions">
-          <button class="actie-btn" type="submit">Toevoegen</button>
-          <a href="/vragenlijstbeheer/" class="actie-link">Terug</a>
+          <button class="actie-btn actie-btn--save" type="submit">
+            Toevoegen
+          </button>
+          <a href="/vragenlijstbeheer/" class="actie-link">↩️ Terug</a>
         </div>
       </div>
     </form>
