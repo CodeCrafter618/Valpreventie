@@ -1,7 +1,5 @@
-﻿{% extends 'base.html' %}
-{% load static %}
-{% block title %}Vraag toevoegen{% endblock %}
-{% block extra_head %}
+﻿{% extends 'base.html' %} {% load static %} {% block title %}Vraag toevoegen{%
+endblock %} {% block extra_head %}
 <link
   rel="stylesheet"
   href="{% static 'vragenlijstbeheer/vragenlijstbeheer.css' %}"
@@ -9,7 +7,7 @@
 {% endblock %} {% block content %}
 <main class="beheer-page">
   <section class="beheer-card" aria-label="Vraag toevoegen">
-    <p class="beheer-kicker">Vragenlijst beheer</p>
+    <p class="beheer-kicker">Vragenlijstbeheer</p>
     <h1>Vraag toevoegen</h1>
 
     <form method="post" class="toevoeg-form">
