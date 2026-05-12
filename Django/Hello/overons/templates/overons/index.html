@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Over ons{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'home/home.css' %}" />
+{% endblock %}
+{% block content %}
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; background: #fff; border-radius: 18px; box-shadow: 0 2px 8px #0001; overflow: hidden;">
+  <div style="flex: 1 1 100%; min-width: 320px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 48px 32px 48px 40px;">
+    <h1 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 12px">Over ons</h1>
+    <p style="margin-bottom: 18px; color: #444; max-width: 700px; text-align: center;">
+      Welkom bij Valpreventie! Wij zijn een team van professionals die zich inzetten voor het voorkomen van vallen en het bevorderen van veiligheid. Op deze pagina vind je meer informatie over onze missie, visie en het team achter deze website.
+    </p>
+    <div style="margin-top: 32px; text-align: center;">
+      <h2 style="font-size: 1.4rem; font-weight: 600; margin-bottom: 10px; color: #2750cf;">Contact</h2>
+      <p style="margin: 0 0 6px 0; color: #222;">E-mail: <a href="mailto:info.firdasneek@firda.nl" style="color: #2750cf; text-decoration: underline;">info.firdasneek@firda.nl</a></p>
+      <p style="margin: 0 0 6px 0; color: #222;">Locatie: Firda Sneek, Harste 46, 8601 EJ Sneek</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
