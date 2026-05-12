@@ -23,7 +23,6 @@ beheer{% endblock %} {% block extra_head %}
         <thead>
           <tr>
             <th>#</th>
-            <th>Categorie</th>
             <th>Titel</th>
             <th>Beschrijving</th>
             <th>Ja</th>
@@ -45,7 +44,6 @@ beheer{% endblock %} {% block extra_head %}
                 aria-label="#"
               />
             </td>
-            <td>{{ vraag.emoji }} {{ vraag.categorie|default:'-' }}</td>
             <td>
               <input
                 class="beheer-input"
@@ -109,7 +107,6 @@ beheer{% endblock %} {% block extra_head %}
           {% else %}
           <tr>
             <td>{{ vraag.volgorde }}</td>
-            <td>{{ vraag.emoji }} {{ vraag.categorie|default:'-' }}</td>
             <td>{{ vraag.vraag }}</td>
             <td>{{ vraag.extra_info|default:'-' }}</td>
             <td>{{ vraag.weging }}</td>

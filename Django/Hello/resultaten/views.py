@@ -1,18 +1,72 @@
-﻿from django.db.models import Q
+﻿from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from home.models import Gemeente, Vragen
-
-try:
-    from weasyprint import HTML, CSS
-    HAS_WEASYPRINT = True
-except ImportError:
-    HAS_WEASYPRINT = False
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.http import require_http_methods
+from home.models import Antwoord, Gemeente, Resultaat, Vragen
 
 SESSION_KEY_VOLTOOID = 'vragenlijst_voltooid'
 SESSION_KEY_ANTWOORDEN = 'vragenlijst_resultaat_antwoorden'
+SESSION_KEY_RESULTAAT_ID = 'vragenlijst_resultaat_id'
 
 
+def _haal_antwoorden_op(opgeslagen):
+    if isinstance(opgeslagen, dict):
+        return {str(vraag_id): bool(antwoord) for vraag_id, antwoord in opgeslagen.items()}
+
+    if isinstance(opgeslagen, list):
+        antwoorden = {}
+        for antwoord in opgeslagen:
+            if not isinstance(antwoord, dict):
+                continue
+            vraag_id = antwoord.get('vraag_id')
+            if vraag_id is None:
+                continue
+            antwoorden[str(vraag_id)] = bool(antwoord.get('ja'))
+        return antwoorden
+
+    return {}
+
+
+def _zoek_gemeente(gemeente_zoekterm):
+    if not gemeente_zoekterm:
+        return None, []
+
+    meldingen = []
+    exacte_match = Gemeente.objects.filter(naam__iexact=gemeente_zoekterm).first()
+    if exacte_match:
+        return exacte_match, meldingen
+
+    gevonden = Gemeente.objects.filter(Q(naam__icontains=gemeente_zoekterm)).order_by('naam').first()
+    if not gevonden:
+        meldingen.append('Geen gemeente gevonden met deze naam.')
+    return gevonden, meldingen
+
+
+def _sla_resultaat_op(request, gemeente_zoekterm, gevonden_gemeente, vragen, antwoorden, totale_score, max_mogelijke_score, risico):
+    if not request.session.session_key:
+        request.session.save()
+
+    with transaction.atomic():
+        resultaat = Resultaat.objects.create(
+            sessie_key=request.session.session_key or '',
+            gemeente_zoekterm=gemeente_zoekterm,
+            gemeente=gevonden_gemeente,
+            totale_score=totale_score,
+            max_score=max_mogelijke_score,
+            risico=risico,
+        )
+
+        for vraag in vragen:
+            ja_antwoord = bool(antwoorden.get(str(vraag.id), False))
+            Antwoord.objects.create(
+                resultaat=resultaat,
+                vraag=vraag,
+                ja_nee=ja_antwoord,
+                behaalde_score=vraag.weging if ja_antwoord else vraag.weging_nee,
+            )
+
+    return resultaat
 def _bepaal_beschrijving(score, totaal):
     if totaal == 0:
         return 'Er zijn geen vragen voor dit onderdeel.'
@@ -142,36 +196,14 @@ def resultaten(request):
     if not request.session.get(SESSION_KEY_VOLTOOID, False):
         return redirect('/vragen/')
 
+    if not request.session.session_key:
+        request.session.save()
+
     gemeente_zoekterm = (request.GET.get('gemeente') or '').strip()
-    gevonden_gemeente = None
-    gemeente_meldingen = []
-
-    if gemeente_zoekterm:
-        exacte_match = Gemeente.objects.filter(naam__iexact=gemeente_zoekterm).first()
-        if exacte_match:
-            gevonden_gemeente = exacte_match
-        else:
-            gevonden_gemeente = (
-                Gemeente.objects.filter(Q(naam__icontains=gemeente_zoekterm)).order_by('naam').first()
-            )
-
-        if not gevonden_gemeente:
-            gemeente_meldingen.append('Geen gemeente gevonden met deze naam.')
+    gevonden_gemeente, gemeente_meldingen = _zoek_gemeente(gemeente_zoekterm)
     
     opgeslagen = request.session.get(SESSION_KEY_ANTWOORDEN, {})
-    if isinstance(opgeslagen, dict):
-        antwoorden = {str(vraag_id): bool(antwoord) for vraag_id, antwoord in opgeslagen.items()}
-    elif isinstance(opgeslagen, list):
-        antwoorden = {}
-        for antwoord in opgeslagen:
-            if not isinstance(antwoord, dict):
-                continue
-            vraag_id = antwoord.get('vraag_id')
-            if vraag_id is None:
-                continue
-            antwoorden[str(vraag_id)] = bool(antwoord.get('ja'))
-    else:
-        antwoorden = {}
+    antwoorden = _haal_antwoorden_op(opgeslagen)
     
     vragen = list(Vragen.objects.order_by('volgorde', 'id'))
     
@@ -180,6 +212,48 @@ def resultaten(request):
     
     totale_score, categoriescore, max_mogelijke_score = _bereken_score(antwoorden, vragen)
     risico, feedback, kleur = _bepaal_feedback(totale_score, max_mogelijke_score)
+
+    # Controleer of we al een resultaat hebben voor deze sessie
+    resultaat_id = request.session.get(SESSION_KEY_RESULTAAT_ID)
+    resultaat = None
+    
+    if resultaat_id:
+        resultaat = Resultaat.objects.filter(id=resultaat_id).first()
+    
+    if resultaat is None:
+        # Maak een nieuw resultaat
+        resultaat = _sla_resultaat_op(
+            request,
+            gemeente_zoekterm,
+            gevonden_gemeente,
+            vragen,
+            antwoorden,
+            totale_score,
+            max_mogelijke_score,
+            risico,
+        )
+        request.session[SESSION_KEY_RESULTAAT_ID] = resultaat.id
+        request.session.modified = True
+    else:
+        # Update het bestaande resultaat met de gemeente en nieuwe gegevens
+        resultaat.gemeente_zoekterm = gemeente_zoekterm
+        resultaat.gemeente = gevonden_gemeente
+        resultaat.save()
+        # Verwijder oude antwoorden en maak nieuwe aan
+        Antwoord.objects.filter(resultaat=resultaat).delete()
+        for vraag in vragen:
+            ja_antwoord = bool(antwoorden.get(str(vraag.id), False))
+            Antwoord.objects.create(
+                resultaat=resultaat,
+                vraag=vraag,
+                ja_nee=ja_antwoord,
+                behaalde_score=vraag.weging if ja_antwoord else vraag.weging_nee,
+            )
+
+    resultaat_antwoorden = list(
+        resultaat.antwoorden.select_related('vraag').order_by('vraag__volgorde', 'vraag__id')
+    )
+    antwoorden = {str(antwoord.vraag_id): bool(antwoord.ja_nee) for antwoord in resultaat_antwoorden}
     
     feedback_dict = {
         'laag': {
@@ -202,12 +276,14 @@ def resultaten(request):
     context = {
         'heeft_vragen': True,
         'totale_score': totale_score,
-        'max_score': len(vragen),
+        'max_score': max_mogelijke_score,
         'risico': risico,
         'feedback': feedback_dict[risico],
         'categoriescore': categoriescore,
         'antwoorden': antwoorden,
         'vragen': vragen,
+        'resultaat': resultaat,
+        'resultaat_antwoorden': resultaat_antwoorden,
         'gemeente_zoekterm': gemeente_zoekterm,
         'gevonden_gemeente': gevonden_gemeente,
         'gemeente_meldingen': gemeente_meldingen,
@@ -217,56 +293,86 @@ def resultaten(request):
 
 
 def pdf_download(request):
-    """Generate and download PDF of results."""
     if not request.session.get(SESSION_KEY_VOLTOOID, False):
         return redirect('/vragen/')
-    
-    if not HAS_WEASYPRINT:
-        return HttpResponse(
-            'PDF generation library not installed. Please install weasyprint: pip install weasyprint',
-            status=500
+
+    if not request.session.session_key:
+        request.session.save()
+
+    gemeente_zoekterm = (request.POST.get('gemeente_zoekterm') or request.GET.get('gemeente') or '').strip()
+    gevonden_gemeente, _ = _zoek_gemeente(gemeente_zoekterm)
+
+    resultaat_id = request.session.get(SESSION_KEY_RESULTAAT_ID)
+    resultaat = None
+    if resultaat_id:
+        resultaat = Resultaat.objects.filter(id=resultaat_id).first()
+    if resultaat is None:
+        resultaat = (
+            Resultaat.objects.filter(sessie_key=request.session.session_key or '')
+            .order_by('-aangemaakt_op')
+            .first()
         )
-    
-    opgeslagen = request.session.get(SESSION_KEY_ANTWOORDEN, {})
-    if isinstance(opgeslagen, dict):
-        antwoorden = {str(vraag_id): bool(antwoord) for vraag_id, antwoord in opgeslagen.items()}
-    elif isinstance(opgeslagen, list):
-        antwoorden = {}
-        for antwoord in opgeslagen:
-            if not isinstance(antwoord, dict):
-                continue
-            vraag_id = antwoord.get('vraag_id')
-            if vraag_id is None:
-                continue
-            antwoorden[str(vraag_id)] = bool(antwoord.get('ja'))
-    else:
-        antwoorden = {}
-    
-    vragen = list(Vragen.objects.order_by('volgorde', 'id'))
-    
-    if not vragen:
-        return HttpResponse('No questions available', status=400)
-    
-    totale_score, categoriescore, max_mogelijke_score = _bereken_score(antwoorden, vragen)
+
+    if resultaat is None:
+        return HttpResponse('No saved result available', status=400)
+
+    resultaat_antwoorden = list(
+        resultaat.antwoorden.select_related('vraag').order_by('vraag__volgorde', 'vraag__id')
+    )
+    db_antwoorden = {str(antwoord.vraag_id): bool(antwoord.ja_nee) for antwoord in resultaat_antwoorden}
+    resultaat_vragen = [antwoord.vraag for antwoord in resultaat_antwoorden]
+    totale_score, categoriescore, max_mogelijke_score = _bereken_score(db_antwoorden, resultaat_vragen)
     risico, feedback, kleur = _bepaal_feedback(totale_score, max_mogelijke_score)
-    
-    context = {
-        'totale_score': totale_score,
-        'max_score': len(vragen),
-        'risico': risico,
-        'categoriescore': categoriescore,
-        'antwoorden': antwoorden,
-        'vragen': vragen,
+    feedback_dict = {
+        'laag': {
+            'titel': 'Goed bezig!',
+            'tekst': 'U heeft een laag valrisico.',
+            'kleur': 'success'
+        },
+        'gemiddeld': {
+            'titel': 'Verbeterpunten',
+            'tekst': 'Er zijn verbeterpunten. Bekijk welke categorieën lager scoren.',
+            'kleur': 'warning'
+        },
+        'hoog': {
+            'titel': 'Verhoogd risico',
+            'tekst': 'Let op! U loopt een verhoogd risico. Het is raadzaam om actie te ondernemen.',
+            'kleur': 'danger'
+        }
     }
+
+    context = {
+        'resultaat': resultaat,
+        'resultaat_antwoorden': resultaat_antwoorden,
+        'totale_score': totale_score,
+        'max_score': max_mogelijke_score,
+        'risico': risico,
+        'feedback': feedback_dict[risico],
+        'categoriescore': categoriescore,
+        'antwoorden': db_antwoorden,
+        'vragen': resultaat_vragen,
+    }
+
+    return render(request, 'resultaten/pdf_template.html', context)
+
+
+@require_http_methods(['POST'])
+def delete_resultaat(request):
+    """Verwijder het resultaat van de huidige sessie."""
+    if not request.session.get(SESSION_KEY_VOLTOOID, False):
+        return JsonResponse({'success': False, 'error': 'Geen actieve vragenlijst.'}, status=403)
     
-    html_string = render(request, 'resultaten/pdf_template.html', context).content
+    resultaat_id = request.session.get(SESSION_KEY_RESULTAAT_ID)
+    if not resultaat_id:
+        return JsonResponse({'success': False, 'error': 'Geen resultaat gevonden.'}, status=404)
     
     try:
-        html = HTML(string=html_string, base_url=request.build_absolute_uri('/'))
-        pdf = html.write_pdf()
-        
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="risicotest_resultaten.pdf"'
-        return response
-    except Exception as e:
-        return HttpResponse(f'Error generating PDF: {str(e)}', status=500)
+        resultaat = Resultaat.objects.get(id=resultaat_id)
+        resultaat.delete()
+        # Verwijder ook de session key
+        if SESSION_KEY_RESULTAAT_ID in request.session:
+            del request.session[SESSION_KEY_RESULTAAT_ID]
+            request.session.modified = True
+        return JsonResponse({'success': True, 'message': 'Resultaat verwijderd.'})
+    except Resultaat.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Resultaat niet gevonden.'}, status=404)

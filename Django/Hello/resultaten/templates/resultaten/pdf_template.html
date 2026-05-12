@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load result_filters %}
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -144,6 +143,38 @@
         margin-top: 40px;
       }
 
+      .answers-title {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 16px;
+        font-weight: 600;
+      }
+
+      .answers-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+        margin-bottom: 40px;
+      }
+
+      .answers-table th,
+      .answers-table td {
+        border: 1px solid #d9d9d9;
+        padding: 10px 12px;
+        text-align: left;
+        font-size: 13px;
+        vertical-align: top;
+      }
+
+      .answers-table th {
+        background: #f3f5fb;
+        font-weight: 600;
+      }
+
+      .answers-table tr:nth-child(even) td {
+        background: #fafafa;
+      }
+
       .disclaimer strong {
         display: block;
         margin-bottom: 5px;
@@ -168,6 +199,18 @@
         <div class="score-label">Punten</div>
       </div>
 
+      {% if resultaat %}
+      <div class="feedback">
+        <h2>Opgeslagen resultaat</h2>
+        <p>
+          Dit resultaat is opgeslagen in de database op {{
+          resultaat.aangemaakt_op|date:"d-m-Y H:i" }}{% if
+          resultaat.gemeente_zoekterm %} voor gemeentezoekterm "{{
+          resultaat.gemeente_zoekterm }}"{% endif %}.
+        </p>
+      </div>
+      {% endif %}
+
       <div class="feedback">
         <h2>{{ feedback.titel }}</h2>
         <p>{{ feedback.tekst }}</p>
@@ -180,15 +223,35 @@
         <div class="category-card">
           <div class="card-emoji">{{ cat_data.emoji }}</div>
           <div class="card-title">{{ cat_name }}</div>
-          <div class="card-description">
-            {{ category_descriptions|get_item:cat_name }}
-          </div>
+          <div class="card-description">{{ cat_data.beschrijving }}</div>
           <div class="card-score">
             {{ cat_data.score }} van {{ cat_data.aantal_vragen }} vragen
           </div>
         </div>
         {% endfor %}
       </div>
+
+      {% if resultaat_antwoorden %}
+      <div class="answers-title">Antwoorden per vraag</div>
+      <table class="answers-table">
+        <thead>
+          <tr>
+            <th>Vraag</th>
+            <th>Antwoord</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for antwoord in resultaat_antwoorden %}
+          <tr>
+            <td>{{ antwoord.vraag.vraag }}</td>
+            <td>{% if antwoord.ja_nee %}Ja{% else %}Nee{% endif %}</td>
+            <td>{{ antwoord.behaalde_score }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
 
       <div class="disclaimer">
         <strong>Disclaimer:</strong>
