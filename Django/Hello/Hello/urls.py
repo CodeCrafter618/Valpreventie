@@ -22,11 +22,11 @@ urlpatterns = [
     path('', include('home.urls')),
     path('login/', include('login.urls')),
     path('vragen/', include('vragen.urls')),
+    path('overons/', include('overons.urls')),
     path('resultaten/', resultaten_view, name='resultaten'),
     path('resultaten/pdf/', pdf_download, name='pdf_download'),
     path('resultaten/delete/', delete_resultaat, name='delete_resultaat'),
     path('vragenlijstbeheer/', include('vragenlijstbeheer.urls')),
     path('vraag-toevoegen/', include('vraag_toevoegen.urls')),
-    path('overons/', include('overons.urls')),
     path('admin/', admin.site.urls),
 ]

@@ -1,4 +1,5 @@
 from django.shortcuts import render
 
-def overons(request):
-    return render(request, 'overons/index.html')
+
+def index(request):
+    return render(request, "overons/index.html")

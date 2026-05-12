@@ -1,6 +1,7 @@
 from django.urls import path
+
 from . import views
 
 urlpatterns = [
-    path('', views.overons, name='overons'),
+    path("", views.index, name="overons"),
 ]

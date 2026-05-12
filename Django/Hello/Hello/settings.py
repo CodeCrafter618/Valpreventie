@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'login',
     'home',
     'vragen',
+    'overons',
     'vragenlijstbeheer',
     'vraag_toevoegen',
     'resultaten',

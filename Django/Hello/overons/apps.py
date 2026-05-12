@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
+
 class OveronsConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'overons'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "overons"
