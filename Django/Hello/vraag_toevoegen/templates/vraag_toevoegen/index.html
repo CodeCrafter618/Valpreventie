@@ -1,44 +1,34 @@
-﻿{% extends 'base.html' %} {% load static %} {% block title %}Vraag toevoegen{%
-endblock %} {% block extra_head %}
-<link
-  rel="stylesheet"
-  href="{% static 'vraag_toevoegen/vraag_toevoegen.css' %}"
-/>
-{% endblock %} {% block content %}
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block title %}Vraag toevoegen{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'vraag_toevoegen/vraag_toevoegen.css' %}" />
+{% endblock %}
+{% block content %}
 <main class="beheer-wrap">
   <section class="beheer-card" aria-label="Vraag toevoegen">
-    <h1>Vraag toevoegen (aparte pagina)</h1>
+    <p class="beheer-kicker">Vragenlijst beheer</p>
+    <h1>Vraag toevoegen</h1>
 
     <form method="post" class="toevoeg-form">
       {% csrf_token %}
       <div class="toevoeg-grid">
-        <div class="form-group">
-          <label for="vraag">Vraag:</label>
+        <div class="toevoeg-veld">
+          <label for="vraag">Titel</label>
           <input
             class="beheer-input"
             type="text"
             id="vraag"
             name="vraag"
-            placeholder="Voer vraag in"
+            placeholder="Bijvoorbeeld: Controleer je ogen"
             required
           />
         </div>
 
-        <div class="form-group">
-          <label for="extra_info">Extra info:</label>
+        <div class="toevoeg-veld">
+          <label for="weging">Punten Ja</label>
           <input
-            class="beheer-input"
-            type="text"
-            id="extra_info"
-            name="extra_info"
-            placeholder="Beschrijving (optioneel)"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="weging">Weging:</label>
-          <input
-            class="beheer-input"
+            class="beheer-input beheer-input-number"
             type="number"
             id="weging"
             name="weging"
@@ -47,8 +37,31 @@ endblock %} {% block extra_head %}
           />
         </div>
 
-        <div class="form-group">
-          <label for="volgorde">Volgorde:</label>
+        <div class="toevoeg-veld">
+          <label for="weging_nee">Punten Nee</label>
+          <input
+            class="beheer-input beheer-input-number"
+            type="number"
+            id="weging_nee"
+            name="weging_nee"
+            placeholder="0"
+            value="0"
+          />
+        </div>
+
+        <div class="toevoeg-veld">
+          <label for="extra_info">Beschrijving</label>
+          <textarea
+            class="beheer-textarea"
+            id="extra_info"
+            name="extra_info"
+            rows="4"
+            placeholder="De volledige vraag en tips"
+          ></textarea>
+        </div>
+
+        <div class="toevoeg-veld">
+          <label for="volgorde">#</label>
           <input
             class="beheer-input beheer-input-number"
             type="number"
@@ -56,6 +69,7 @@ endblock %} {% block extra_head %}
             name="volgorde"
             value="{{ volgende_volgorde }}"
             min="1"
+            aria-label="#"
           />
         </div>
 

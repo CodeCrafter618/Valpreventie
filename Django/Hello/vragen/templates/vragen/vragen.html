@@ -5,12 +5,11 @@ vallen{% endblock %} {% block extra_head %}
 <main class="vragen-wrap">
   <section class="vragen-card" aria-label="Risicotest voor vallen">
     {% if not heeft_vragen %}
+    <p class="vragen-label">Risicotest voor vallen</p>
     <h1>Risicotest voor vallen</h1>
     <p class="vragen-step">Er staan nog geen vragen in de database.</p>
     {% else %}
-    <p class="vragen-step">
-      Risicotest voor vallen - vraag {{ stap }} van {{ totaal }}
-    </p>
+    <p class="vragen-label">Risicotest voor vallen</p>
 
     {% if is_klaar %}
     <p class="vragen-done">Bedankt, je antwoorden zijn opgeslagen.</p>
@@ -32,16 +31,41 @@ vallen{% endblock %} {% block extra_head %}
         {% endif %}
       </div>
 
-      <form method="post" class="keuze-form" aria-label="Kies ja of nee">
+      <form
+        method="post"
+        class="keuze-form"
+        aria-label="Kies ja of nee"
+        id="vragen-form"
+      >
         {% csrf_token %}
-        <button class="btn-keuze" type="submit" name="keuze" value="ja">
+        <input
+          type="hidden"
+          name="keuze"
+          id="keuze-input"
+          value="{{ gekozen_keuze }}"
+        />
+        <button
+          class="btn-keuze {% if gekozen_keuze == 'ja' %}is-selected{% endif %}"
+          type="button"
+          data-keuze="ja"
+          aria-pressed="{% if gekozen_keuze == 'ja' %}true{% else %}false{% endif %}"
+        >
           JA
-          <span class="btn-icon" aria-hidden="true">&#10003;</span>
+          <span class="btn-icon" aria-hidden="true"></span>
         </button>
-        <button class="btn-keuze" type="submit" name="keuze" value="nee">
+        <button
+          class="btn-keuze {% if gekozen_keuze == 'nee' %}is-selected{% endif %}"
+          type="button"
+          data-keuze="nee"
+          aria-pressed="{% if gekozen_keuze == 'nee' %}true{% else %}false{% endif %}"
+        >
           NEE
-          <span class="btn-icon" aria-hidden="true">&#9675;</span>
+          <span class="btn-icon" aria-hidden="true"></span>
         </button>
+
+        {% if foutmelding %}
+        <p class="keuze-fout">{{ foutmelding }}</p>
+        {% endif %}
       </form>
     </div>
 
@@ -57,13 +81,37 @@ vallen{% endblock %} {% block extra_head %}
       <a class="link-nav" href="/vragen/?stap={{ terug_stap }}">&lt; Terug</a>
       {% else %}
       <span class="link-nav" aria-hidden="true">&lt; Terug</span>
-      {% endif %} {% if is_laatste %}
-      <span class="btn-nav" aria-hidden="true">Laatste vraag</span>
-      {% else %}
-      <a class="btn-nav" href="/vragen/?stap={{ stap }}">Volgende vraag &gt;</a>
       {% endif %}
+
+      <button class="btn-nav" type="submit" form="vragen-form">
+        Volgende vraag &gt;
+      </button>
     </div>
     {% endif %}
   </section>
 </main>
+
+<script>
+  (function () {
+    const input = document.getElementById("keuze-input");
+    const buttons = Array.from(
+      document.querySelectorAll(".btn-keuze[data-keuze]")
+    );
+
+    function setKeuze(value) {
+      input.value = value;
+      buttons.forEach((button) => {
+        const selected = button.dataset.keuze === value;
+        button.classList.toggle("is-selected", selected);
+        button.setAttribute("aria-pressed", selected ? "true" : "false");
+      });
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        setKeuze(button.dataset.keuze);
+      });
+    });
+  })();
+</script>
 {% endblock %}

@@ -16,13 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from resultaten.views import resultaten as resultaten_view
+from resultaten.views import resultaten as resultaten_view, pdf_download
 
 urlpatterns = [
     path('', include('home.urls')),
     path('login/', include('login.urls')),
     path('vragen/', include('vragen.urls')),
     path('resultaten/', resultaten_view, name='resultaten'),
+    path('resultaten/pdf/', pdf_download, name='pdf_download'),
     path('vragenlijstbeheer/', include('vragenlijstbeheer.urls')),
     path('vraag-toevoegen/', include('vraag_toevoegen.urls')),
     path('admin/', admin.site.urls),

@@ -10,7 +10,7 @@ beheer{% endblock %} {% block extra_head %}
     <div class="beheer-topbar">
       <h1>Vragenlijst beheer</h1>
       <a
-        href="{% url 'vragenlijstbeheer-toevoegen' %}"
+        href="{% url 'vraag_toevoegen' %}"
         class="beheer-toevoegen-link"
         aria-label="Vraag toevoegen"
         title="Vraag toevoegen"
@@ -23,6 +23,7 @@ beheer{% endblock %} {% block extra_head %}
         <thead>
           <tr>
             <th>#</th>
+            <th>Categorie</th>
             <th>Titel</th>
             <th>Beschrijving</th>
             <th>Ja</th>
@@ -44,6 +45,7 @@ beheer{% endblock %} {% block extra_head %}
                 aria-label="#"
               />
             </td>
+            <td>{{ vraag.emoji }} {{ vraag.categorie|default:'-' }}</td>
             <td>
               <input
                 class="beheer-input"
@@ -64,8 +66,28 @@ beheer{% endblock %} {% block extra_head %}
 {{ vraag.extra_info }}</textarea
               >
             </td>
-            <td>1</td>
-            <td>0</td>
+            <td>
+              <input
+                class="beheer-input beheer-input-number"
+                type="number"
+                name="weging"
+                value="{{ vraag.weging }}"
+                form="edit-form-{{ vraag.id }}"
+                min="0"
+                aria-label="Punten Ja"
+              />
+            </td>
+            <td>
+              <input
+                class="beheer-input beheer-input-number"
+                type="number"
+                name="weging_nee"
+                value="{{ vraag.weging_nee }}"
+                form="edit-form-{{ vraag.id }}"
+                min="0"
+                aria-label="Punten Nee"
+              />
+            </td>
             <td class="acties-col">
               <form
                 id="edit-form-{{ vraag.id }}"
@@ -77,16 +99,21 @@ beheer{% endblock %} {% block extra_head %}
                 <input type="hidden" name="vraag_id" value="{{ vraag.id }}" />
                 <button class="actie-btn" type="submit">✏️</button>
               </form>
-              <a href="/vragenlijstbeheer/" class="actie-link">↩️</a>
+              <a
+                href="/vragenlijstbeheer/?edit={{ vraag.id }}"
+                class="actie-link"
+                >📝</a
+              >
             </td>
           </tr>
           {% else %}
           <tr>
             <td>{{ vraag.volgorde }}</td>
+            <td>{{ vraag.emoji }} {{ vraag.categorie|default:'-' }}</td>
             <td>{{ vraag.vraag }}</td>
             <td>{{ vraag.extra_info|default:'-' }}</td>
-            <td>1</td>
-            <td>0</td>
+            <td>{{ vraag.weging }}</td>
+            <td>{{ vraag.weging_nee }}</td>
             <td class="acties-col">
               <a
                 href="/vragenlijstbeheer/?edit={{ vraag.id }}"
