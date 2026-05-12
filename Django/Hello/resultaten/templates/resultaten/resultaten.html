@@ -94,10 +94,56 @@ Risicotest voor vallen{% endblock %} {% block extra_head %}
   </div>
 
   <div class="result-actions">
-    <button type="button" class="result-download" onclick="window.print()">
+    <button onclick="deleteAndPrint()" class="result-download">
       Afdrukken
     </button>
   </div>
   {% endif %}
 </section>
+
+<script>
+  function deleteAndPrint() {
+    // Verwijder het resultaat via AJAX en print daarna
+    fetch("/resultaten/delete/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCSRFToken(),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Print de pagina
+          window.print();
+        } else {
+          console.error("Fout bij verwijderen van resultaat:", data.error);
+          alert(
+            "Er is een fout opgetreden bij het verwijderen van het resultaat."
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Fout bij het verwijderen van het resultaat:", error);
+        alert("Er is een fout opgetreden.");
+      });
+  }
+
+  function getCSRFToken() {
+    // Haal de CSRF-token uit de cookie
+    const name = "csrftoken";
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+</script>
 {% endblock %}
