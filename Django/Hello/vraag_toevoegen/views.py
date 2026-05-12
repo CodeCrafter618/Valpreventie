@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.db.models import Max
 
@@ -12,6 +13,7 @@ def _parse_int(value: str, fallback: int) -> int:
         return fallback
 
 
+@login_required(login_url="/login/")
 def index(request):
     """Simple page to add a new vraag (question)."""
     if request.method == "POST":

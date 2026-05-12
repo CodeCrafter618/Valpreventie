@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -12,6 +13,7 @@ def _parse_int(value: str, fallback: int) -> int:
         return fallback
 
 
+@login_required(login_url="/login/")
 def index(request):
     if request.method == "POST":
         actie = request.POST.get("actie")

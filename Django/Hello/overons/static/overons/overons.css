@@ -1,5 +1,5 @@
 :root {
-    --overons-bg: #eef2f7;
+    --overons-bg: #ffffff;
     --overons-surface: #ffffff;
     --overons-surface-soft: #f8fbff;
     --overons-text: #132238;
@@ -20,23 +20,20 @@ body.site-shell {
 
 .overons-page {
     min-height: 100%;
-    padding: 40px 20px 56px;
-    background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.06), transparent 32%),
-        var(--overons-bg);
+    padding: 32px 20px 48px;
+    background: var(--overons-bg);
 }
 
 .overons-shell {
-    width: min(1200px, 100%);
+    width: min(1040px, 100%);
     margin: 0 auto;
-    padding: 40px;
+    padding: 28px;
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
-    gap: 32px;
+    grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.85fr);
+    gap: 24px;
     border: 1px solid var(--overons-border);
-    border-radius: 28px;
-    background: rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
+    background: #ffffff;
     box-shadow: var(--overons-shadow);
     backdrop-filter: blur(10px);
 }
@@ -47,8 +44,8 @@ body.site-shell {
 
 .overons-kicker {
     margin: 0 0 12px;
-    color: var(--overons-accent);
-    font-size: 0.92rem;
+    color: #2563eb;
+    font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -56,30 +53,32 @@ body.site-shell {
 
 .overons-title {
     margin: 0;
-    font-size: clamp(2.4rem, 4vw, 4.2rem);
-    line-height: 1.02;
-    letter-spacing: -0.04em;
+    color: #132238;
+    font-size: clamp(1.9rem, 3vw, 2.8rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
 }
 
 .overons-intro {
     margin: 18px 0 0;
     max-width: 65ch;
-    font-size: 1.05rem;
+    font-size: 1rem;
     line-height: 1.75;
-    color: var(--overons-muted);
+    color: #516173;
 }
 
 .overons-contact-section {
-    margin-top: 28px;
-    padding: 24px;
+    margin-top: 24px;
+    padding: 20px;
     border: 1px solid rgba(37, 99, 235, 0.12);
-    border-radius: 22px;
-    background: var(--overons-surface-soft);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.96);
 }
 
 .overons-contact-title {
     margin: 0 0 14px;
-    font-size: 1.35rem;
+    color: var(--overons-text);
+    font-size: 1.1rem;
     line-height: 1.2;
 }
 
@@ -91,8 +90,8 @@ body.site-shell {
 .overons-contact-item {
     display: grid;
     gap: 4px;
-    padding: 14px 16px;
-    border-radius: 16px;
+    padding: 12px 14px;
+    border-radius: 14px;
     border: 1px solid rgba(19, 34, 56, 0.08);
     background: var(--overons-surface);
     color: inherit;
@@ -109,7 +108,7 @@ a.overons-contact-item:focus-visible {
 
 .overons-contact-label {
     color: var(--overons-muted);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -117,7 +116,7 @@ a.overons-contact-item:focus-visible {
 
 .overons-contact-value {
     color: var(--overons-accent-dark);
-    font-size: 1rem;
+    font-size: 0.98rem;
     font-weight: 600;
     line-height: 1.45;
     word-break: break-word;
@@ -133,10 +132,10 @@ a.overons-contact-item:focus-visible {
 .overons-map-frame {
     overflow: hidden;
     border: 1px solid var(--overons-border);
-    border-radius: 22px;
+    border-radius: 18px;
     background: #dbeafe;
     box-shadow: 0 16px 36px rgba(19, 34, 56, 0.08);
-    aspect-ratio: 4 / 4.25;
+    aspect-ratio: 4 / 4.1;
 }
 
 .overons-map-frame iframe {
@@ -147,7 +146,7 @@ a.overons-contact-item:focus-visible {
 }
 
 .overons-map-link {
-    color: var(--overons-accent-dark);
+    color: #8fb1ff;
     font-weight: 700;
     text-decoration: none;
 }
@@ -169,20 +168,16 @@ a.overons-contact-item:focus-visible {
 
 @media (max-width: 720px) {
     .overons-page {
-        padding: 20px 14px 40px;
+        padding: 18px 12px 36px;
     }
 
     .overons-shell {
-        padding: 22px 16px;
-        border-radius: 22px;
-        gap: 22px;
+        padding: 18px 14px;
+        border-radius: 20px;
+        gap: 18px;
     }
 
     .overons-contact-section {
-        padding: 18px;
-    }
-
-    .overons-intro {
-        font-size: 1rem;
+        padding: 16px;
     }
 }

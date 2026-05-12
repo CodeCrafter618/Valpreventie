@@ -7,7 +7,7 @@
     display: flex;
     flex-wrap: wrap;
     min-height: 100vh;
-    background: #fff;
+    background: #ffffff;
     border-radius: 18px;
     box-shadow: 0 2px 8px #0001;
     overflow: hidden;
@@ -19,11 +19,19 @@
       min-width: 320px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 48px 32px 48px 40px;
+      justify-content: flex-start;
+      padding: 32px 32px 48px 40px;
+      color: #111111;
     "
   >
-    <h1 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 12px">
+    <h1
+      style="
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #111111;
+      "
+    >
       Doe de valrisico test in 5 minuten
     </h1>
     <p style="margin-bottom: 18px; color: #444; max-width: 90%">
@@ -39,12 +47,15 @@
         3. <span style="color: #2750cf; font-weight: 600">Ontvang advies</span>
       </span>
     </div>
+    <div style="margin-top: 28px">
+      <a href="{% url 'vragen' %}" class="home-start-btn">Start test</a>
+    </div>
   </div>
   <div
     style="
       flex: 1 1 45%;
       min-width: 260px;
-      background: #0d2950;
+      background: #002a5a;
       display: flex;
       align-items: center;
       justify-content: center;

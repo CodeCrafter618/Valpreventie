@@ -1,5 +1,5 @@
 :root {
-    --page-bg: #d5d6d9;
+    --page-bg: #ffffff;
     --card-bg: #f1f1f3;
     --input-bg: #e2e3e7;
     --text: #111111;
@@ -62,4 +62,25 @@ body {
 .btn:hover,
 .btn:focus-visible {
     background: var(--button-hover);
+}
+
+.home-start-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+    padding: 14px 22px;
+    border-radius: 12px;
+    background: var(--button);
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.home-start-btn:hover,
+.home-start-btn:focus-visible {
+    background: var(--button-hover);
+    transform: translateY(-1px);
 }

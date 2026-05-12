@@ -23,9 +23,35 @@
     </style>
     {% block extra_head %}{% endblock %}
   </head>
-  <body class="site-shell">
+  <body
+    class="site-shell"
+    data-auth-state="{% if request.user.is_authenticated %}authenticated{% else %}anonymous{% endif %}"
+  >
     {% include 'header/header.html' %}
     <main class="page-content">{% block content %}{% endblock %}</main>
     {% include 'footer/footer.html' %}
+    <script>
+      (() => {
+        const storageKey = "valpreventie-auth-state";
+        const body = document.body;
+
+        if (!body) {
+          return;
+        }
+
+        const currentState = body.dataset.authState || "anonymous";
+        const storedState = localStorage.getItem(storageKey);
+
+        if (storedState !== currentState) {
+          localStorage.setItem(storageKey, currentState);
+        }
+
+        window.addEventListener("storage", (event) => {
+          if (event.key === storageKey && event.newValue !== event.oldValue) {
+            window.location.reload();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

@@ -1,126 +1,67 @@
-<!DOCTYPE html>
-<html lang="nl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Over ons</title>
-    <link rel="stylesheet" href="/static/style.css" />
-    <link rel="stylesheet" href="/static/overons/overons.css" />
-  </head>
-  <body class="site-shell">
-    <header class="site-header">
-      <div class="site-header__inner">
-        <div class="site-header__logo-title">
+{% extends 'base.html' %} {% load static %} {% block title %}Over ons -
+Fysiotherapie van Putten{% endblock %} {% block extra_head %}
+<link rel="stylesheet" href="{% static 'overons/overons.css' %}" />
+{% endblock %} {% block content %}
+<main class="overons-page">
+  <section class="overons-shell" aria-label="Over ons en contactgegevens">
+    <div class="overons-content">
+      <p class="overons-kicker">Over ons</p>
+      <h1 class="overons-title">Fysiotherapie van Putten</h1>
+      <p class="overons-intro">
+        Fysiotherapie van Putten zit in Gezondheidscentrum Marknesse. U kunt
+        hier terecht voor persoonlijke fysiotherapie, FysioFit en verschillende
+        specialismen.
+      </p>
+
+      <div class="overons-contact-section">
+        <h2 class="overons-contact-title">Contactgegevens</h2>
+        <div class="overons-contact-list">
           <a
-            href="/"
-            class="site-header__logo-link"
-            aria-label="Ga naar de homepagina"
+            class="overons-contact-item"
+            href="https://maps.app.goo.gl/nQFX4vTbn1Xyi8K59"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <img
-              src="/static/login/Logo.png"
-              alt="Logo"
-              class="site-header__logo"
-              height="32"
-            />
-          </a>
-          <a href="/vragen/" class="site-header__nav-link"
-            >Vragenlijst invullen</a
-          >
-          <a href="/overons/" class="site-header__nav-link">Over ons</a>
-          <a href="/vragenlijstbeheer/" class="site-header__nav-link"
-            >Vragenlijst beheer</a
-          >
-        </div>
-        <div class="site-header__login-container">
-          <a href="/login/" class="site-header__nav-link site-header__login-btn"
-            >Login</a
-          >
-        </div>
-      </div>
-    </header>
-
-    <main class="page-content">
-      <main class="overons-page">
-        <section class="overons-shell" aria-label="Over ons en contactgegevens">
-          <div class="overons-content">
-            <p class="overons-kicker">Over ons</p>
-            <h1 class="overons-title">Valpreventie bij Firda</h1>
-            <p class="overons-intro">
-              Welkom bij Valpreventie. Wij zetten ons in voor een veilige
-              omgeving en duidelijke informatie voor iedereen die met
-              valpreventie te maken heeft.
-            </p>
-
-            <div class="overons-contact-section">
-              <h2 class="overons-contact-title">Contactgegevens</h2>
-              <div class="overons-contact-list">
-                <a
-                  class="overons-contact-item"
-                  href="mailto:info.firdasneek@firda.nl"
-                >
-                  <span class="overons-contact-label">E-mail</span>
-                  <span class="overons-contact-value"
-                    >info.firdasneek@firda.nl</span
-                  >
-                </a>
-                <a
-                  class="overons-contact-item"
-                  href="https://www.firda.nl/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span class="overons-contact-label">Website</span>
-                  <span class="overons-contact-value">firda.nl</span>
-                </a>
-                <a class="overons-contact-item" href="tel:+31515481600">
-                  <span class="overons-contact-label">Telefoon</span>
-                  <span class="overons-contact-value">0515 481 600</span>
-                </a>
-                <a
-                  class="overons-contact-item"
-                  href="https://www.google.com/maps/search/?api=1&query=Harste+4-6,+8602+JX+Sneek"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span class="overons-contact-label">Locatie</span>
-                  <span class="overons-contact-value"
-                    >Harste 4-6, 8602 JX Sneek</span
-                  >
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <aside class="overons-map-panel" aria-label="Kaart van de locatie">
-            <div class="overons-map-frame">
-              <iframe
-                title="Kaart Harste 4-6, 8602 JX Sneek"
-                src="https://www.google.com/maps?q=Harste+4-6,+8602+JX+Sneek&output=embed"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-              ></iframe>
-            </div>
-            <a
-              class="overons-map-link"
-              href="https://www.google.com/maps/search/?api=1&query=Harste+4-6,+8602+JX+Sneek"
-              target="_blank"
-              rel="noopener noreferrer"
+            <span class="overons-contact-label">Hoofdvestiging</span>
+            <span class="overons-contact-value"
+              >Emmeloordsweg 2b, 8316 AV Marknesse</span
             >
-              Open locatie in Google Maps
-            </a>
-          </aside>
-        </section>
-      </main>
-    </main>
-
-    <footer class="site-footer">
-      <div class="site-footer__inner">
-        <p class="site-footer__text" style="text-align: center; margin: 0">
-          © 2026
-          <span style="color: #2563eb; font-weight: 600">Justin &amp; Siem</span
-          >. Alle rechten voorbehouden.
-        </p>
+          </a>
+          <a class="overons-contact-item" href="tel:0527203090">
+            <span class="overons-contact-label">Telefoonnummer Dependance</span>
+            <span class="overons-contact-value">0527-203090</span>
+          </a>
+          <a
+            class="overons-contact-item"
+            href="https://fysiotherapievanputten.nl/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="overons-contact-label">Website</span>
+            <span class="overons-contact-value">fysiotherapievanputten.nl</span>
+          </a>
+        </div>
       </div>
-    </footer>
-  </body>
-</html>
+    </div>
+
+    <aside class="overons-map-panel" aria-label="Locatie van de praktijk">
+      <div class="overons-map-frame">
+        <iframe
+          title="Kaart Emmeloordsweg 2b, 8316 AV Marknesse"
+          src="https://www.google.com/maps?q=Emmeloordsweg+2b,+8316+AV+Marknesse&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+      <a
+        class="overons-map-link"
+        href="https://maps.app.goo.gl/nQFX4vTbn1Xyi8K59"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Open locatie in Google Maps
+      </a>
+    </aside>
+  </section>
+</main>
+{% endblock %}
